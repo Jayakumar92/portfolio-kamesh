@@ -144,7 +144,7 @@ function Resources() {
   console.log(JSON.stringify(results));
 
   return (
-    <div className="container mx-auto flex min-h-dvh w-screen gap-5  bg-white py-8">
+    <div className="container m-3 mx-auto flex min-h-dvh w-screen  gap-5 bg-white py-8">
       <div className="w-2/3 space-y-12">
         <div className="space-y-3">
           <h3 className=" text-lg font-bold text-gray-700">Cylinder</h3>
@@ -222,7 +222,7 @@ function Resources() {
           </div>
         </div>
         <div className="flex justify-end">
-          <button type="submit" className="bg-primary rounded-md px-5 py-2" onClick={proceedCalculation}>
+          <button type="submit" className="rounded-md bg-primary px-5 py-2" onClick={proceedCalculation}>
             {'Calculate'}
           </button>
         </div>
@@ -233,7 +233,7 @@ function Resources() {
           <div className=" space-y-6">
             {results.map(({ title, value, units, id }: any) => (
               <div className="flex flex-col gap-3" key={id}>
-                <h3 className=" text-primary text-lg font-bold capitalize">{title}</h3>
+                <h3 className=" text-lg font-bold capitalize text-primary">{title}</h3>
                 <div>
                   {Object.entries(value as never).map(([key, result]) => (
                     <div key={key} className="flex items-center justify-between space-y-1">
@@ -256,7 +256,7 @@ function Resources() {
           </div>
           {motor && (
             <div className="mt-[40px] flex justify-between">
-              <h3 className=" text-primary text-lg font-bold capitalize">{'Motor'}</h3>
+              <h3 className=" text-lg font-bold capitalize text-primary">{'Motor'}</h3>
               <span className="flex items-center">
                 <p className=" text-base font-bold text-black">
                   {typeof motor === 'number' ? (Number.isInteger(motor) ? motor : motor.toFixed(3)) : motor + ''}
