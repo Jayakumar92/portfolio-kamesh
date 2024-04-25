@@ -1,14 +1,14 @@
-'use client';
+"use client"
 
-import React from 'react';
+import React from "react"
 
 type Props = {
-  id: string;
-  label?: string;
-  value?: string;
-  onChange?: (e: any) => void;
-  placeholder: string;
-};
+  id: string
+  label?: string
+  value?: string
+  onChange?: (e: any) => void
+  placeholder: string
+}
 
 function Input({ id, label, ...rest }: Props) {
   return (
@@ -26,7 +26,7 @@ function Input({ id, label, ...rest }: Props) {
         {...rest}
       />
     </div>
-  );
+  )
 }
 
-export default Input;
+export default Input
