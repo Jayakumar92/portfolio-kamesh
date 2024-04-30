@@ -22,12 +22,12 @@ const HeroSection = () => {
 
         <div className="flex max-w-3xl flex-grow flex-col justify-center gap-8 md:order-first md:items-start md:justify-center 2xl:gap-12">
           <div className="flex flex-col gap-2">
-            <Typography variant="h1">Hi, I&apos;m kamesh</Typography>
+            <Typography variant="h1">Hi, Im kamesh</Typography>
             <Typography>
-              I'm a mechanical engineer specializing in hydraulic cylinder
-              design and manufacturing. I focus on creating exceptional
-              mechanical solutions that are efficient, reliable, and visually
-              appealing, drawing from years of experience in the field.
+              Im a mechanical engineer specializing in hydraulic cylinder design
+              and manufacturing. I focus on creating exceptional mechanical
+              solutions that are efficient, reliable, and visually appealing,
+              drawing from years of experience in the field.
             </Typography>
           </div>
           <div className="flex items-center gap-6">
