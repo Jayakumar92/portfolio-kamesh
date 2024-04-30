@@ -20,74 +20,41 @@ const AboutMeSection = () => {
             Curious about me? Here you have it:
           </Typography>
           <Typography>
-            I&apos;m a passionate,{" "}
-            <Link
-              noCustomization
-              externalLink
-              withUnderline
-              href={EXTERNAL_LINKS.FIGMA}
-            >
-              self-proclaimed designer
-            </Link>{" "}
-            who specializes in full stack development (React.js & Node.js). I am
-            enthusiastic about bringing the technical and visual aspects of
-            digital products to life. User experience, pixel perfect design, and
-            writing clear, readable, highly performant code matters to me.
+            I am an accomplished Autonomy Mechanical Engineer with a decade of
+            experience specializing in the manufacturing and design of
+            mechanical parts.less transition from design to execution.
           </Typography>
           <Typography>
-            I began my journey as a web developer in 2015, and since then,
-            I&apos;ve continued to grow and evolve as a developer, taking on new
-            challenges and learning the latest technologies along the way. Now,
-            in my early thirties, 7 years after starting my web development
-            journey, I&apos;m building cutting-edge web applications using
-            modern technologies such as Next.js, TypeScript, Nestjs,
-            Tailwindcss, Supabase and much more.
+            My expertise lies in the application of Japanese technology within
+            Manufacturing Organizations.
           </Typography>
           <Typography>
             I am very much a progressive thinker and enjoy working on products
-            end to end, from ideation all the way to development.
+            end to end, from ideation all the way to development. Adhere to
+            company standards, I ensure alignment with organizational objectives
+            and excellence in performance.
           </Typography>
           <Typography>
-            When I&apos;m not in full-on developer mode, you can find me
-            hovering around on twitter or on indie hacker, witnessing the
-            journey of early startups or enjoying some free time. You can follow
-            me on{" "}
-            <Link
-              noCustomization
-              externalLink
-              withUnderline
-              href={EXTERNAL_LINKS.TWITTER}
-            >
-              Twitter
-            </Link>{" "}
-            where I share tech-related bites and build in public, or you can
-            follow me on{" "}
-            <Link
-              noCustomization
-              externalLink
-              withUnderline
-              href={EXTERNAL_LINKS.GITHUB}
-            >
-              GitHub
-            </Link>
-            .
+            Mechanical Design Expertise: Adept in designing, modelling, and
+            drafting hydraulic cylinders and their components, I bring a
+            profound understanding of mechanical design principles and
+            manufacturability.
           </Typography>
-          <Typography>Finally, some quick bits about me.</Typography>
+          <Typography>Experience Across Diverse Domains.</Typography>
           <div className="flex flex-col gap-2 md:flex-row md:gap-6">
             <ul className="flex list-inside list-disc flex-col gap-2">
-              <Typography component="li">
-                B.E. in Computer Engineering
-              </Typography>
-              <Typography component="li">Full time freelancer</Typography>
+              <Typography component="li">Machine Shop Floor</Typography>
+              <Typography component="li">Foundry Operations</Typography>
             </ul>
             <ul className="flex list-inside list-disc flex-col gap-2">
-              <Typography component="li">Avid learner</Typography>
-              <Typography component="li">Aspiring indie hacker</Typography>
+              <Typography component="li">High-Pressure Die Casting</Typography>
+              <Typography component="li">Automobile Assembly Plants</Typography>
             </ul>
           </div>
           <Typography>
-            One last thing, I&apos;m available for freelance work, so feel free
-            to reach out and say hello! I promise I don&apos;t bite 😉
+            Manufacturing Collaboration: I work closely with manufacturing
+            teams, providing support throughout the production process to ensure
+            the seam
           </Typography>
         </div>
       </div>
