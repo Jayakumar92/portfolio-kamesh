@@ -3,6 +3,7 @@ import { MapPin } from "lucide-react"
 import SocialIcons from "@/components/data-display/social-icons"
 import Typography from "@/components/general/typography"
 import Container from "@/components/layout/container"
+import { user } from "@/assets"
 
 const HeroSection = () => {
   return (
@@ -10,13 +11,13 @@ const HeroSection = () => {
       <div className="flex flex-col gap-12 md:flex-row">
         <div className="flex items-center justify-center md:order-last md:flex-grow md:justify-end">
           <div className="relative h-[300px] w-[280px] md:h-[360px] md:w-[320px]">
-            {/* <Image
-              src={SagarHeadshot}
+            <Image
+              src={user}
               alt="Headshot of Sagar"
               className="absolute z-10 h-[280px] w-[240px] border-8 border-gray max-md:left-5 md:left-0 md:top-0 md:h-[320px] md:w-[280px]"
               style={{ objectFit: "cover" }}
-            ></Image> */}
-            <div className="absolute h-[280px] w-[280px] border-8 border-transparent bg-gray-200 max-md:top-5 md:bottom-0 md:right-0 md:h-[320px] md:w-[280px]"></div>
+            ></Image>
+            <div className="absolute h-[280px] w-[280px] border-8 border-transparent bg-primary-200 max-md:top-5 md:bottom-0 md:right-0 md:h-[320px] md:w-[280px]"></div>
           </div>
         </div>
 

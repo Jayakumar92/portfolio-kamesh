@@ -1,6 +1,18 @@
 import { Github, Twitter, Figma, Linkedin } from "lucide-react"
 import { ExperienceDetails, TechDetails } from "@/lib/types"
-import { mitsuba, mm, montan } from "@/assets"
+import {
+  mitsuba,
+  mm,
+  montan,
+  productDesign,
+  qualityAssurance,
+  pipeDesign,
+  autoDesk,
+  autoCad,
+  solidEdge,
+  nx,
+  solidWorks,
+} from "@/assets"
 
 export const NAV_LINKS = [
   {
@@ -34,9 +46,24 @@ export const SOCIAL_LINKS = [
 
 export const TECHNOLOGIES: TechDetails[] = [
   {
-    label: "Javascript",
-    logo: "",
-    url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+    label: "Autodesk Inventor 2019",
+    logo: autoDesk,
+  },
+  {
+    label: "AutoCAD Mechanical 2019",
+    logo: autoCad,
+  },
+  {
+    label: "Solid Edge 2020.",
+    logo: solidEdge,
+  },
+  {
+    label: "NX 10, Unigraphics",
+    logo: nx,
+  },
+  {
+    label: "Solid works 2019",
+    logo: solidWorks,
   },
 ]
 

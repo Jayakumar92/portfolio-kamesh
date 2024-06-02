@@ -4,7 +4,6 @@ export type TechDetails = {
   logo: string | StaticImageData
   darkModeLogo?: string | StaticImageData
   label: string
-  url: string
 }
 
 export type ExperienceDetails = {

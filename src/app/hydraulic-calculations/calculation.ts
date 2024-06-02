@@ -5,12 +5,13 @@ export const mm2ToM2 = (value: number) => value / 1000000
 export const mm3ToCm3 = (value: number) => value / 1000
 export const mm3ToLiter = (value: number) => value / 1000000
 export const mm3ToM3 = (value: number) => value / 1000000000
+
 export const barToKgfPerMm2 = (value: number) => {
-  const conversionFactor = 0.0101972
+  const conversionFactor = 0.01
   return value * conversionFactor
 }
 export const barToKgfPerCm2 = (value: number) => {
-  const conversionFactor = 1.01972
+  const conversionFactor = 1
   return value * conversionFactor
 }
 
@@ -31,7 +32,7 @@ export function kgfToTons(weightInKgf: number) {
   // Convert kgf to tons
   const weightInTons = weightInKgf / (standardGravity * 1000)
 
-  return weightInTons
+  return weightInKgf / 1000
 }
 
 export function kgfToKilonewtons(weightInKgf: number) {
@@ -41,7 +42,7 @@ export function kgfToKilonewtons(weightInKgf: number) {
   // Convert kgf to kilonewtons
   const weightInKilonewtons = weightInKgf / standardGravity
 
-  return weightInKilonewtons
+  return weightInKgf * 0.00980665
 }
 
 export function kgfToNewtons(weightInKgf: number) {
@@ -80,7 +81,7 @@ export function cm3PerMinToLitersPerMin(valueInCm3PerMin: number) {
 
 export function gmPerCcToKgPerMm3(valueInGmPerCc: number) {
   // Convert grams per cubic centimeter to kilograms per cubic millimeter
-  return valueInGmPerCc / 1e6 / 1e9
+  return valueInGmPerCc * 0.000001
 }
 
 export function lpmToMm3PerMin(valueInLPerMin: number) {
@@ -98,12 +99,12 @@ export function minToSec(valueInMin: number) {
   return valueInMin * 60
 }
 
-export function mmToMetersPerMin(valueInMMPerMin: number) {
+export function mmPerMinToMetersPerMin(valueInMMPerMin: number) {
   // Convert millimeters per minute to meters per minute
   return valueInMMPerMin / 1000
 }
 
-export function mmToMetersPerSec(valueInMMPerMin: number) {
+export function mmPerMinToMetersPerSec(valueInMMPerMin: number) {
   // Convert millimeters per minute to meters per second
   return valueInMMPerMin / (1000 * 60)
 }
@@ -135,81 +136,6 @@ export function rodSideAreaOfCylinder(boreDia: number, rodDia: number): number {
   return boreArea - 3.14 * (rodDia / 2) ** 2
 }
 
-export function ratioBoreAndRod(boreDia: number, rodDia: number): number {
-  const boreArea = boreSideAreaOfCylinder(boreDia)
-  const rodArea = rodSideAreaOfCylinder(boreDia, rodDia)
-  return boreArea / rodArea
-}
-
-/**
- * volume calculation
- */
-
-export function volumeOfRodeSide(
-  boreDia: number,
-  rodDia: number,
-  stockDia: number
-): number {
-  const rodArea = rodSideAreaOfCylinder(boreDia, rodDia)
-  return rodArea * stockDia
-}
-
-export function volumeOfBoreSide(boreDia: number, stockDia: number): number {
-  const boreArea = boreSideAreaOfCylinder(boreDia)
-
-  return boreArea * stockDia
-}
-
-/**
- * Pressure
- */
-
-export function rodTestPressure(rodPressure: number, testPressure: number) {
-  return rodPressure * testPressure
-}
-
-export function boreTestPressure(borePressure: number, testPressure: number) {
-  return borePressure * testPressure
-}
-
-/**
- * Force
- */
-
-export function rodPullingForce(
-  boreDia: number,
-  rodDia: number,
-  rodPressure: number
-) {
-  const convertedPressure = barToKgfPerMm2(rodPressure)
-  const areaOfRod = rodSideAreaOfCylinder(boreDia, rodDia)
-  return convertedPressure * areaOfRod
-}
-
-export function borePullingForce(boreDia: number, borePressure: number) {
-  const convertedBorePressure = barToKgfPerMm2(borePressure)
-  const areaOfBore = boreSideAreaOfCylinder(boreDia)
-  return convertedBorePressure * areaOfBore
-}
-
-/**
- * Speed
- */
-
-export function liftingCylinder(lifting: number) {
-  return lifting * 0.166
-}
-
-export function loweringCylinder(lowering: number) {
-  return lowering * 0.166
-}
-
-/**
- * FLow
- */
-
-export function liftingFlow(boreDia: number, rodDia: number, lifting: number) {
-  const rodAreaCmPerSquare = mm2ToCm2(rodSideAreaOfCylinder(boreDia, rodDia))
-  const convertedLifting = metersPerMinToCentimetersPerMin(lifting)
-  return rodAreaCmPerSquare * convertedLifting
+export function ratioBoreAndRod(boreArea: number, rodArea: number): number {
+  return Number((boreArea / rodArea).toFixed(3))
 }
