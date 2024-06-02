@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 const title = "Kamesh | Mechanical Engineer From Chennai, India."
 const description =
-  "A self-proclaimed designer who specializes in full stack development (React.js & Node.js), from Ahmedabad, India."
+  "Im a mechanical engineer specializing in hydraulic cylinder design and manufacturing."
 
 export const metadata: Metadata = {
   title,
