@@ -158,10 +158,10 @@ function Resources() {
 
   return (
     <div className="min-h-dvh container m-3 mx-auto flex w-screen  gap-5 bg-white py-8">
-      <div className="w-2/3 space-y-12">
+      <div className="w-1/3 space-y-12">
         <div className="space-y-3">
           <h3 className=" text-lg font-bold text-gray-700">Cylinder</h3>
-          <div className="flex w-full justify-between">
+          <div className="flex w-full">
             <Input
               label="Bore"
               id="bore"
@@ -189,7 +189,7 @@ function Resources() {
         <div className="space-y-3">
           <h3 className=" text-lg font-bold text-gray-700">Pressure</h3>
 
-          <div className="flex w-full justify-between">
+          <div className="flex w-full">
             <Input
               label="Bore"
               id="bore_pressure"
@@ -217,7 +217,7 @@ function Resources() {
         <div className="space-y-3">
           <h3 className="text-lg font-bold text-gray-700">Speed</h3>
 
-          <div className="flex w-full gap-7">
+          <div className="flex w-full">
             <Input
               label="Lifting"
               id="lifting_speed"
@@ -246,7 +246,7 @@ function Resources() {
       </div>
 
       {results && (
-        <div className="w-1/3 rounded-md bg-slate-100 p-5">
+        <div className="w-2/3 rounded-md bg-slate-100 p-5">
           <div className=" space-y-6">
             {results.map(({ title, value, units, id }: any) => (
               <div className="flex flex-col gap-3" key={id}>

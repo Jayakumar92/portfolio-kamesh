@@ -19,7 +19,7 @@ function Input({ id, label, ...rest }: Props) {
         </label>
       )}
       <input
-        className="focus:border-primary text-md w-80 rounded-md border-2 border-gray-200 bg-white px-3 py-2 font-medium text-black focus:outline-none"
+        className="focus:border-primary text-md w-28 rounded-md border-2 border-gray-200 bg-white px-3 py-2 font-medium text-black focus:outline-none"
         type="number"
         id={id}
         name={id}

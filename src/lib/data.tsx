@@ -1,14 +1,6 @@
-import { Github, Twitter, Figma } from "lucide-react"
+import { Github, Twitter, Figma, Linkedin } from "lucide-react"
 import { ExperienceDetails, TechDetails } from "@/lib/types"
-
-export const EXTERNAL_LINKS = {
-  GITHUB: "https://github.com/shahsagarm",
-  GITHUB_REPO: "https://github.com/shahsagarm/sagarshah.dev",
-  TWITTER: "https://twitter.com/shahsagarm",
-  FIGMA: "https://www.figma.com/@shahsagarm",
-  FIGMA_FILE:
-    "https://www.figma.com/community/file/1262992249991763120/Personal-Portfolio-Website-Template-%7C-Mobile-%26-Desktop",
-}
+import { mitsuba, mm, montan } from "@/assets"
 
 export const NAV_LINKS = [
   {
@@ -31,8 +23,8 @@ export const NAV_LINKS = [
 
 export const SOCIAL_LINKS = [
   {
-    icon: Github,
-    url: "",
+    icon: Linkedin,
+    url: "https://www.linkedin.com/in/kamesh-ellappan-425b4349/",
   },
   {
     icon: Twitter,
@@ -50,38 +42,44 @@ export const TECHNOLOGIES: TechDetails[] = [
 
 export const EXPERIENCES: ExperienceDetails[] = [
   {
-    logo: "",
-    logoAlt: "Upwork logo",
-    position: "Independent Freelancer",
-    startDate: new Date(2021, 10),
+    logo: montan,
+    logoAlt: "Montan logo",
+    position: "Montan Hydraulik India Private Limited",
+    startDate: new Date(2021, 11),
     currentlyWorkHere: true,
     summary: [
-      "Worked for various clients like Fiskil, Shosho, Crowe MacKay LLP.",
-      "Worked with a variety of technologies, including React, Next.js, Typescript, Express.js, PostgreSQL, Tailwindcss, Mui, Firebase, Storybook, Cypress, and others.",
+      "Develop commissioning plans and schedules for hydraulic cylinder piping systems, collaborating with engineering and project management teams.",
+      "Coordinate resources, equipment, and tools required for commissioning activities.",
+      "Perform thorough inspections of hydraulic systems and conduct functional testing of components.",
+      "Identify and troubleshoot operational issues during commissioning, resolving problems promptly.",
     ],
   },
   {
-    logo: "",
+    logo: mm,
     darkModeLogo: "",
-    logoAlt: "Greenapex logo",
-    position: "Team Lead",
-    startDate: new Date(2017, 6),
-    endDate: new Date(2021, 9),
+    logoAlt: "mem  logo",
+    position: "MBM Engineering Infotech Limited",
+    startDate: new Date(2016, 10),
+    endDate: new Date(2020, 4),
     summary: [
-      "Acted as team lead in different projects.",
-      "Brainstormed new ideas & gathered requirements for internal projects.",
-      "Designed architecture of different projects (frontend + backend).",
-      "Worked on enterprise-level projects for a variety of clients.",
-      "Handled sprint planning & task distribution.",
+      "Preparation of technical documentation, including reports, specifications, and design drawings.",
+      "Preparation of monthly production report of various products with respective process and project, utilizing Min-Max Inventory control for production planning.",
+      "Development of new patterns and molds for foundry process, while maintaining inventory management to ensure optimal stock levels.",
+      "Monitoring of project progress in the shop floor, from initial process to delivery stage, along with production planning to meet customer requirements.",
     ],
   },
   {
-    logo: "",
+    logo: mitsuba,
     darkModeLogo: "",
-    logoAlt: "Dotnpixel logo",
-    position: "Full Stack Developer",
-    startDate: new Date(2015, 11),
-    endDate: new Date(2017, 4),
-    summary: ["Worked as a full stack developer (React / Laravel)."],
+    logoAlt: "mitsuba logo",
+    position: "Mitsuba Sical India Private Limited",
+    startDate: new Date(2013, 7),
+    endDate: new Date(2015, 11),
+    summary: [
+      "Conducted regular time and motion studies to identify bottlenecks, leading to the redesign of workflows for improvement productivity.",
+      "Hands-on experience in the calculation and setup of machining processes",
+      "Strong Knowledge about kaizen and 5S activities in machine shop floor.",
+      "Utilized cause and effect analysis methodologies like Fish Bone Analysis to systematically identify and address root causes, ensuring comprehensive problem-solving.",
+    ],
   },
 ]

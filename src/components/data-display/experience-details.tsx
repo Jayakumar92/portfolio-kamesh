@@ -19,13 +19,13 @@ const ExperienceDetails = ({
   summary,
 }: ExperienceDetailsProps) => {
   return (
-    <Card className="mx-auto flex w-full max-w-4xl flex-col justify-between gap-4 p-8 md:flex-row md:gap-8">
+    <Card className="mx-auto flex w-full max-w-6xl flex-col justify-between gap-4 p-8 md:flex-row md:gap-8">
       <div className="max-md:order-1 md:w-1/4">
         <ImageWrapper
           src={logo}
           srcForDarkMode={darkModeLogo}
           alt={logoAlt}
-          className="max-w-[120px]"
+          className="max-w-[150px]"
         />
       </div>
       <div className="flex flex-col gap-4 max-md:order-3 md:w-2/4">

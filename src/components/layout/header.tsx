@@ -4,8 +4,9 @@ import { NAV_LINKS } from "@/lib/data"
 import { mergeClasses } from "@/lib/utils"
 import useScroll from "@/hooks/use-scroll"
 import Link from "@/components/navigation/link"
-import DownloadCV from "@/components/general/download-cv"
+import Button from "@/components/general/button"
 import Typography from "@/components/general/typography"
+import { useRouter } from "next/navigation"
 
 const Logo = () => (
   <Typography variant="h3" className="font-bold">
@@ -15,7 +16,7 @@ const Logo = () => (
 
 const Header = () => {
   const scrolled = useScroll(40)
-
+  const router = useRouter()
   return (
     <header
       className={mergeClasses(
@@ -37,7 +38,13 @@ const Header = () => {
           </ul>
           <div className="h-6 w-0.5 bg-gray-100"></div>
           <div className="flex items-center gap-4">
-            <DownloadCV />
+            <Button
+              onClick={() => {
+                router.push("/hydraulic-calculations")
+              }}
+            >
+              Hydraulic Calculations
+            </Button>
           </div>
         </div>
       </div>
