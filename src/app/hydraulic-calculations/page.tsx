@@ -2,7 +2,7 @@
 import React, { useState } from "react"
 import Input from "@/components/general/input"
 import Button from "@/components/general/button"
-import { ChevronLeft } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
 import {
@@ -1126,9 +1126,10 @@ function Resources() {
   }
 
   return (
-    <div className="min-h-dvh container m-3 mx-auto flex w-screen flex-col  bg-white py-8">
-      <Link href="/">
-        <ChevronLeft />
+    <div className="m-3 mx-auto flex w-screen max-w-6xl flex-col  bg-white py-8">
+      <Link href="/" className="flex items-center gap-1">
+        <ArrowLeft className="h-4 w-4" />
+        <span className=" text-sm text-slate-600">Back</span>
       </Link>
 
       <div className="mb-8 mt-5 flex w-full gap-5">
