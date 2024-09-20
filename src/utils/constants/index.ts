@@ -221,6 +221,7 @@ export const SOCIAL_LINKS = [
 
 export const EXPERIENCES: ExperienceDetails[] = [
   {
+    id: 1,
     logo: montan,
     logoAlt: "Montan logo",
     position: "Montan Hydraulik India Private Limited",
@@ -234,6 +235,7 @@ export const EXPERIENCES: ExperienceDetails[] = [
     ],
   },
   {
+    id: 2,
     logo: mm,
     darkModeLogo: "",
     logoAlt: "mem  logo",
@@ -248,6 +250,7 @@ export const EXPERIENCES: ExperienceDetails[] = [
     ],
   },
   {
+    id: 3,
     logo: mitsuba,
     darkModeLogo: "",
     logoAlt: "mitsuba logo",
@@ -265,22 +268,27 @@ export const EXPERIENCES: ExperienceDetails[] = [
 
 export const TECHNOLOGIES: TechDetails[] = [
   {
+    id: 1,
     label: "Autodesk Inventor 2019",
     logo: autoDesk,
   },
   {
+    id: 2,
     label: "AutoCAD Mechanical 2019",
     logo: autoCad,
   },
   {
+    id: 3,
     label: "Solid Edge 2020.",
     logo: solidEdge,
   },
   {
+    id: 4,
     label: "NX 10, Unigraphics",
     logo: nx,
   },
   {
+    id: 5,
     label: "Solid works 2019",
     logo: solidWorks,
   },

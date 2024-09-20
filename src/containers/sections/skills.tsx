@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { TECHNOLOGIES } from "@/utils/constants"
 import Tag from "@/containers/data-display/tag"
 import TechDetails from "@/containers/data-display/tech-details"
@@ -17,8 +18,8 @@ const SkillsSection = () => {
       </div>
 
       <div className="mx-auto grid grid-cols-1 space-x-7 sm:grid-cols-3 md:grid-cols-5">
-        {TECHNOLOGIES.map((technology, index) => (
-          <TechDetails {...technology} key={index} />
+        {TECHNOLOGIES.map((technology) => (
+          <TechDetails {...technology} key={technology.id} />
         ))}
       </div>
     </Container>
