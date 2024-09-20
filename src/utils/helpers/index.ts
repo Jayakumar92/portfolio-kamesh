@@ -1,7 +1,3 @@
-import type { Editor } from "@tiptap/core"
-
-import type { EditorProps } from "@/app/(tiptap)"
-
 export function paginationHandler(
   type: "next" | "prev" | "current",
   position: number
@@ -9,18 +5,6 @@ export function paginationHandler(
   const page =
     type === "next" ? position + 1 : type === "prev" ? position - 1 : position
   return page
-}
-
-export function getOutput(editor: Editor, format: EditorProps["output"]) {
-  if (format === "json") {
-    return JSON.stringify(editor.getJSON())
-  }
-
-  if (format === "html") {
-    return editor.getText() ? String(editor.getHTML()) : ""
-  }
-
-  return editor.getText()
 }
 
 export const getEmbedUrl = (url: string) => {

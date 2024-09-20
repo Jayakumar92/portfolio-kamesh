@@ -25,3 +25,8 @@ export type ExperienceDetails = {
   summary: string[]
   id: number
 }
+
+export type ComboBoxItem = {
+  value: string
+  label: string
+}

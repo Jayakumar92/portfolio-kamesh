@@ -4,7 +4,7 @@ import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Calendar, CalenderProps } from "@/components/ui/calendar"
+import { Calendar, type CalendarProps } from "@/components/ui/calendar"
 import {
   Popover,
   PopoverContent,
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/popover/"
 import { cn } from "@/components/utils"
 
-type DatePickerProps = CalenderProps
+type DatePickerProps = CalendarProps
 
 export function DatePicker({ selected, ...props }: DatePickerProps) {
   return (
