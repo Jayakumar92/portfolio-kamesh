@@ -11,6 +11,7 @@ export type TechDetails = {
   logo: string | StaticImageData
   darkModeLogo?: string | StaticImageData
   label: string
+  id: number
 }
 
 export type ExperienceDetails = {
@@ -22,4 +23,5 @@ export type ExperienceDetails = {
   startDate: Date
   endDate?: Date
   summary: string[]
+  id: number
 }

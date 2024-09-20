@@ -1,9 +1,6 @@
-import Image from "next/image"
-
 import Tag from "@/containers/data-display/tag"
 import Typography from "@/containers/general/typography"
 import Container from "@/containers/layout/container"
-import Link from "@/containers/navigation/link"
 
 const AboutMeSection = () => {
   return (

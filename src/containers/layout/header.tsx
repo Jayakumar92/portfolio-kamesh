@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 "use client"
 
 import { useRouter } from "next/navigation"
@@ -21,7 +22,7 @@ const Header = () => {
   return (
     <header
       className={cn(
-        "bg-gray sticky top-0 z-30 w-full border-b border-transparent max-md:border-gray-100",
+        "sticky top-0 z-30 w-full border-b border-transparent bg-gray max-md:border-gray-100",
         scrolled ? "bg-gray/50 backdrop-blur-xl md:border-gray-100" : ""
       )}
     >

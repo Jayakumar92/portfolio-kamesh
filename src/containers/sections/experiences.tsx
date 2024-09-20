@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { EXPERIENCES } from "@/utils/constants"
 import ExperienceDetails from "@/containers/data-display/experience-details"
 import Tag from "@/containers/data-display/tag"
@@ -16,8 +17,8 @@ const ExperienceSection = () => {
         </Typography>
       </div>
 
-      {EXPERIENCES?.map((experience, index) => (
-        <ExperienceDetails {...experience} key={index} />
+      {EXPERIENCES?.map((experience) => (
+        <ExperienceDetails {...experience} key={experience.id} />
       ))}
     </Container>
   )

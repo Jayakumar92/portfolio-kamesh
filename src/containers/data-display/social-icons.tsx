@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 "use client"
 
 import { SOCIAL_LINKS } from "@/utils/constants"
