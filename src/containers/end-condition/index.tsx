@@ -20,13 +20,15 @@ import { END_CONDITIONS } from "@/lib/data"
 
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import IconButton from "@/components/general/icon-button"
+import { TableProperties } from "lucide-react"
 
 function EndCondition() {
   return (
     <Dialog>
-      <DialogTrigger asChild className="flex justify-end">
-        <Button className="text-primary" variant="link">
-          End Condition
+      <DialogTrigger asChild>
+        <Button variant={"outline"} size={"icon"}>
+          <TableProperties className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-screen max-w-5xl">
@@ -38,7 +40,7 @@ function EndCondition() {
         </DialogHeader>
         <div className="flex gap-6">
           <div className="flex-1">
-            <div className="min relative h-full w-full">
+            <div className="relative h-full w-full">
               <Image
                 src={endCondition}
                 alt="material"

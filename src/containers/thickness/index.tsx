@@ -1,12 +1,5 @@
-import { MaterialGrade } from "@/containers/material-grade"
 function Thickness() {
-  return (
-    <div className="w-full">
-      <div className="flex justify-end">
-        <MaterialGrade />
-      </div>
-    </div>
-  )
+  return <div className="w-full"></div>
 }
 
 export { Thickness }
