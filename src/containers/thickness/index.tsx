@@ -73,6 +73,7 @@ function Thickness() {
   })
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { material, ...rest } = values
     const data = convertValuesToNumbers(rest)
     const calculations = {

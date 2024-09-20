@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prefer-const */
 "use client"
 
 import { useState } from "react"
@@ -11,8 +14,8 @@ import IconButton from "@/containers/general/icon-button"
 import Typography from "@/containers/general/typography"
 import Container from "@/containers/layout/container"
 
-let email = "kameshe91@gmail.com"
-let phone = "+91 9445441584"
+const email = "kameshe91@gmail.com"
+const phone = "+91 9445441584"
 
 type CopyValue = "email" | "phone"
 

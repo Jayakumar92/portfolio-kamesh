@@ -1,5 +1,5 @@
 import { ExperienceDetails, TechDetails, TMATERIAL } from "@/types"
-import { Figma, Github, Linkedin, Twitter } from "lucide-react"
+import { Linkedin, Twitter } from "lucide-react"
 
 import {
   autoCad,
@@ -8,9 +8,6 @@ import {
   mm,
   montan,
   nx,
-  pipeDesign,
-  productDesign,
-  qualityAssurance,
   solidEdge,
   solidWorks,
 } from "@/assets/images"

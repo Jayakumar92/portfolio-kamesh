@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { ExperienceDetails as ExperienceDetailsProps } from "@/types"
 
 import ImageWrapper from "@/containers/data-display/image-wrapper"
