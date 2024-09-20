@@ -16,3 +16,10 @@ export type ExperienceDetails = {
   endDate?: Date
   summary: string[]
 }
+
+export type TMATERIAL = {
+  materialGrade: string
+  yieldStress: number
+  tensileStress: number
+  elongation: string | null
+}

@@ -2,7 +2,7 @@ import * as React from "react"
 import * as DrawerPrimitive from "@radix-ui/react-dialog"
 import { cva, type VariantProps } from "class-variance-authority"
 
-import { mergeClasses } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 const Drawer = DrawerPrimitive.Root
 
@@ -14,7 +14,7 @@ const DrawerPortal = ({
   className,
   ...props
 }: DrawerPrimitive.DialogPortalProps) => (
-  <DrawerPrimitive.Portal className={mergeClasses(className)} {...props} />
+  <DrawerPrimitive.Portal className={cn(className)} {...props} />
 )
 DrawerPortal.displayName = DrawerPrimitive.Portal.displayName
 
@@ -23,7 +23,7 @@ const DrawerOverlay = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Overlay
-    className={mergeClasses(
+    className={cn(
       "fixed inset-0 z-50 bg-gray-900/10 opacity-100 backdrop-blur-sm",
       className
     )}
@@ -60,7 +60,7 @@ const DrawerContent = React.forwardRef<
     <DrawerOverlay />
     <DrawerPrimitive.Content
       ref={ref}
-      className={mergeClasses(drawerVariants({ side }), className)}
+      className={cn(drawerVariants({ side }), className)}
       {...props}
     >
       {children}

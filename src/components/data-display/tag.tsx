@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { mergeClasses } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import Typography from "@/components/general/typography"
 
 interface TagProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -11,7 +11,7 @@ const Tag = React.forwardRef<HTMLDivElement, TagProps>(
   ({ label, className, ...props }: TagProps, ref) => {
     return (
       <div
-        className={mergeClasses(
+        className={cn(
           "flex items-center justify-center rounded-xl bg-primary-200 px-5 py-1",
           className
         )}

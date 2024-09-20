@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react"
 
-import { mergeClasses } from '@/lib/utils';
+import { cn } from "@/lib/utils"
 
 interface ContainerProps extends React.HTMLAttributes<HTMLElement> {}
 
@@ -8,10 +8,7 @@ const Container = React.forwardRef<HTMLElement, ContainerProps>(
   ({ className, children, ...props }: ContainerProps, ref) => {
     return (
       <section
-        className={mergeClasses(
-          'w-full bg-gray py-16 md:py-20 2xl:py-24',
-          className
-        )}
+        className={cn("w-full bg-gray py-16 md:py-20 2xl:py-24", className)}
         ref={ref}
         {...props}
       >
@@ -19,10 +16,10 @@ const Container = React.forwardRef<HTMLElement, ContainerProps>(
           {children}
         </div>
       </section>
-    );
+    )
   }
-);
+)
 
-Container.displayName = 'Container';
+Container.displayName = "Container"
 
-export default Container;
+export default Container

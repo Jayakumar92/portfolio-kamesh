@@ -10,6 +10,8 @@ import autoCad from "./auto-cad/auti-cad.png"
 import solidEdge from "./solid-edge/solid-edge.png"
 import nx from "./nx/nx.jpg"
 import solidWorks from "./solid-works/solid-works.png"
+import material from "./material/material.png"
+import endCondition from "./end-condition/end-condition.png"
 
 export {
   mitsuba,
@@ -24,4 +26,6 @@ export {
   solidEdge,
   nx,
   solidWorks,
+  material,
+  endCondition,
 }

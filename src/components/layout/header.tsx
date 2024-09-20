@@ -1,7 +1,7 @@
 "use client"
 
 import { NAV_LINKS } from "@/lib/data"
-import { mergeClasses } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import useScroll from "@/hooks/use-scroll"
 import Link from "@/components/navigation/link"
 import Button from "@/components/general/button"
@@ -19,7 +19,7 @@ const Header = () => {
   const router = useRouter()
   return (
     <header
-      className={mergeClasses(
+      className={cn(
         "sticky top-0 z-30 w-full border-b border-transparent bg-gray max-md:border-gray-100",
         scrolled ? "bg-gray/50 backdrop-blur-xl md:border-gray-100" : ""
       )}

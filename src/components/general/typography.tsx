@@ -1,6 +1,6 @@
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-import { mergeClasses } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 const typographyVariants = cva("text-gray-600 font-normal", {
   variants: {
@@ -54,7 +54,7 @@ const Typography = React.forwardRef<
 
     return (
       <Comp
-        className={mergeClasses(typographyVariants({ variant }), className)}
+        className={cn(typographyVariants({ variant }), className)}
         ref={ref}
         {...props}
       >

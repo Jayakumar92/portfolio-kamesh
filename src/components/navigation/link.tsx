@@ -1,7 +1,7 @@
 import * as React from "react"
 import NextLink, { LinkProps as NextLinkProps } from "next/link"
 
-import { mergeClasses } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 interface LinkProps extends NextLinkProps {
   className?: string
@@ -28,7 +28,7 @@ const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
         {...props}
         target={externalLink ? "_blank" : "_self"}
         ref={ref}
-        className={mergeClasses(
+        className={cn(
           noCustomization ??
             "text-base font-medium text-gray-600 transition-all hover:text-gray-900 active:text-gray-600",
           withUnderline

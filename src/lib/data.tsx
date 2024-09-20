@@ -1,5 +1,5 @@
 import { Github, Twitter, Figma, Linkedin } from "lucide-react"
-import { ExperienceDetails, TechDetails } from "@/lib/types"
+import { ExperienceDetails, TechDetails, TMATERIAL } from "@/lib/types"
 import {
   mitsuba,
   mm,
@@ -108,5 +108,107 @@ export const EXPERIENCES: ExperienceDetails[] = [
       "Strong Knowledge about kaizen and 5S activities in machine shop floor.",
       "Utilized cause and effect analysis methodologies like Fish Bone Analysis to systematically identify and address root causes, ensuring comprehensive problem-solving.",
     ],
+  },
+]
+
+export const MATERIALS: TMATERIAL[] = [
+  {
+    materialGrade: "MW450N",
+    yieldStress: 420,
+    tensileStress: 560,
+    elongation: null,
+  },
+  {
+    materialGrade: "E350, IS:2062 (St-52.3N)",
+    yieldStress: 320,
+    tensileStress: 490,
+    elongation: null,
+  },
+  {
+    materialGrade: "X15Cr16Ni2, IS 1570-5",
+    yieldStress: 640,
+    tensileStress: 830,
+    elongation: null,
+  },
+  {
+    materialGrade: "42CrMo4",
+    yieldStress: 480,
+    tensileStress: 640,
+    elongation: null,
+  },
+  {
+    materialGrade: "E355+SR, EN:10305-1 (St52BK+S)",
+    yieldStress: 420,
+    tensileStress: 580,
+    elongation: null,
+  },
+  {
+    materialGrade: "E355",
+    yieldStress: 355,
+    tensileStress: 490,
+    elongation: "22%",
+  },
+  {
+    materialGrade: "E355+C",
+    yieldStress: 512,
+    tensileStress: 640,
+    elongation: "4%",
+  },
+  {
+    materialGrade: "E355+LC",
+    yieldStress: 406,
+    tensileStress: 580,
+    elongation: "7%",
+  },
+  {
+    materialGrade: "E355+SR",
+    yieldStress: 450,
+    tensileStress: 580,
+    elongation: "10%",
+  },
+  {
+    materialGrade: "E355+A",
+    yieldStress: 360,
+    tensileStress: 450,
+    elongation: "22%",
+  },
+  {
+    materialGrade: "E355+N",
+    yieldStress: 355,
+    tensileStress: 490,
+    elongation: "22%",
+  },
+  {
+    materialGrade: "E355",
+    yieldStress: 340,
+    tensileStress: 580,
+    elongation: "10%",
+  },
+]
+
+export const END_CONDITIONS: { endCondition: string; value: number }[] = [
+  {
+    endCondition: "Both Ends are Hinged (Pivoted)",
+    value: 1,
+  },
+  {
+    endCondition: "Both Ends are Fixed",
+    value: 4,
+  },
+  {
+    endCondition: "One End Fixed and Other End Hinged",
+    value: 2,
+  },
+  {
+    endCondition: "One End Fixed and Other End Free",
+    value: 0.25,
+  },
+  {
+    endCondition: "Radial Gate, Hinged",
+    value: 1,
+  },
+  {
+    endCondition: "SFT, Fixed and Guided",
+    value: 2,
   },
 ]
