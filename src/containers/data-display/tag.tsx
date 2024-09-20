@@ -11,8 +11,9 @@ const Tag = React.forwardRef<HTMLDivElement, TagProps>(
   ({ label, className, ...props }: TagProps, ref) => {
     return (
       <div
+        ref={ref}
         className={cn(
-          "bg-primary-200 flex items-center justify-center rounded-xl px-5 py-1",
+          "flex items-center justify-center rounded-xl bg-primary-200 px-5 py-1",
           className
         )}
         {...props}

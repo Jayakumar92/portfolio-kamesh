@@ -2,13 +2,13 @@ import * as React from "react"
 
 import { cn } from "@/components/utils"
 
-interface ContainerProps extends React.HTMLAttributes<HTMLElement> {}
+type ContainerProps = React.HTMLAttributes<HTMLElement>
 
 const Container = React.forwardRef<HTMLElement, ContainerProps>(
   ({ className, children, ...props }: ContainerProps, ref) => {
     return (
       <section
-        className={cn("bg-gray w-full py-16 md:py-20 2xl:py-24", className)}
+        className={cn("w-full bg-gray py-16 md:py-20 2xl:py-24", className)}
         ref={ref}
         {...props}
       >
