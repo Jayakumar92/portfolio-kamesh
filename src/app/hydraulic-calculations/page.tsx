@@ -5,8 +5,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Trelleborg } from "@/containers/trelleborg"
 import { Thickness } from "@/containers/thickness"
 import { Bulking } from "@/containers/bulking"
-import { EndCondition } from "@/containers/end-condition"
-import { MaterialGrade } from "@/containers/material-grade"
 
 function Resources() {
   return (
@@ -17,16 +15,13 @@ function Resources() {
       </Link>
 
       <Tabs defaultValue="buckling">
-        <TabsList className="grid  grid-cols-3">
+        <TabsList className="grid grid-cols-3">
           <TabsTrigger value="trelleborg">Trelleborg</TabsTrigger>
           <TabsTrigger value="thickness">Tube Wall thickness</TabsTrigger>
           <TabsTrigger value="buckling">Buckling</TabsTrigger>
         </TabsList>
         <TabsContent value="trelleborg"></TabsContent>
         <TabsContent value="thickness">
-          <div className="flex justify-end">
-            <MaterialGrade />
-          </div>
           <Thickness />
         </TabsContent>
         <TabsContent value="buckling">

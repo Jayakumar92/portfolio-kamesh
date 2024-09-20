@@ -180,7 +180,7 @@ function Bulking() {
   return (
     <>
       <Form {...form}>
-        <form className="mt-4 sm:mt-10 ">
+        <form className="mt-4 sm:mt-10">
           <div className="space-y-3">
             <div className="leading-relaxed">
               <h4 className="font-sans text-sm font-semibold  text-gray-900">
@@ -192,7 +192,7 @@ function Bulking() {
                 length, and extended length
               </p>
             </div>
-            <div className="grid gap-2 sm:grid-cols-4 sm:gap-3">
+            <div className="grid grid-cols-4 gap-3">
               <FormField
                 control={form.control}
                 name="outerDia"
@@ -259,7 +259,7 @@ function Bulking() {
               />
             </div>
           </div>
-          <Separator className="my-4 sm:my-8 " />
+          <Separator className="my-8 " />
           <div className="space-y-3">
             <div className="leading-relaxed">
               <h4 className="font-sans text-sm font-semibold  text-gray-900">
@@ -271,7 +271,7 @@ function Bulking() {
                 loads.
               </p>
             </div>
-            <div className="grid gap-2 sm:grid-cols-4 sm:gap-3">
+            <div className="grid grid-cols-4 gap-3">
               <FormField
                 control={form.control}
                 name="pullLoad"
@@ -302,7 +302,7 @@ function Bulking() {
               />
             </div>
           </div>
-          <Separator className="my-4 h-[0.5px] sm:my-8" />
+          <Separator className="my-8 h-[0.5px]" />
           <div className="space-y-3">
             <div className="leading-relaxed">
               <h4 className="font-sans text-sm font-semibold  text-gray-900">
@@ -313,7 +313,7 @@ function Bulking() {
                 End condition factor affecting the rod’s buckling behavior.
               </p>
             </div>
-            <div className="grid gap-2 sm:grid-cols-4 sm:gap-3">
+            <div className="grid grid-cols-4 gap-3">
               <FormField
                 control={form.control}
                 name="yield"
@@ -369,7 +369,7 @@ function Bulking() {
           </div>
         </form>
       </Form>
-      <div className="mt-5 sm:mt-10">
+      <div className="mt-10">
         <Button onClick={form.handleSubmit(onSubmit)} className="sm:w-[20%]">
           Calculate
         </Button>
