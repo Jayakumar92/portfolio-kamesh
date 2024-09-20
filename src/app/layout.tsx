@@ -1,6 +1,10 @@
+import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import { Metadata } from "next"
-import "./globals.css"
+
+import "@/styles/globals.css"
+
+import { Toaster } from "@/components/ui/sonner"
+import { Provider } from "@/app/provider"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -11,23 +15,24 @@ const description =
 export const metadata: Metadata = {
   title,
   description,
-  keywords: [
-    "Frontend Developer",
-    "Full Stack Developer",
-    "React Developer",
-    "Next.js Developer",
-  ],
 }
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
+}>) {
   return (
-    <html lang="en" className="!scroll-smooth" suppressHydrationWarning>
-      <body className={`${inter.className} bg-gray text-gray-600 antialiased`}>
-        {children}
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.className} bg-gray text-gray-600 antialiased`}
+    >
+      <body className={"m-0 box-border w-full p-0"}>
+        <Provider>
+          {children}
+          <Toaster richColors closeButton />
+        </Provider>
       </body>
     </html>
   )
