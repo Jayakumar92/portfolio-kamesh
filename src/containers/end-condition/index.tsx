@@ -1,3 +1,10 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+import Image from "next/image"
+import { TableProperties } from "lucide-react"
+
+import { endCondition } from "@/assets/images"
+import { END_CONDITIONS } from "@/utils/constants"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -14,14 +21,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { endCondition } from "@/assets"
-
-import { END_CONDITIONS } from "@/lib/data"
-
-import { Button } from "@/components/ui/button"
-import Image from "next/image"
-import IconButton from "@/components/general/icon-button"
-import { TableProperties } from "lucide-react"
 
 function EndCondition() {
   return (
@@ -31,7 +30,7 @@ function EndCondition() {
           <TableProperties className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-screen max-w-5xl">
+      <DialogContent className="max-h-screen max-w-4xl">
         <DialogHeader>
           <DialogTitle>End Condition</DialogTitle>
           <DialogDescription>
@@ -46,7 +45,7 @@ function EndCondition() {
                 alt="material"
                 width={400}
                 height={400}
-                className=" object-contain"
+                className="object-contain"
               />
             </div>
           </div>
@@ -54,7 +53,7 @@ function EndCondition() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">Material Grade</TableHead>
+                  <TableHead>Material Grade</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
               </TableHeader>

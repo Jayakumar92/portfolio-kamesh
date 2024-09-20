@@ -1,0 +1,13 @@
+@layer components {
+  .screen-size {
+    @apply mx-auto max-w-5xl py-10;
+  }
+
+  .text-label {
+    @apply text-base font-semibold text-gray-800;
+  }
+
+  .text-description {
+    @apply text-sm font-normal text-muted-foreground;
+  }
+}

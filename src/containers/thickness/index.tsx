@@ -1,11 +1,16 @@
 "use client"
-import { Input } from "@/components/ui/input"
-import { EndCondition } from "@/containers/end-condition"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { useForm } from "react-hook-form"
+
+import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 import { z } from "zod"
+
+import {
+  convertValuesToNumbers,
+  getObjectFromArrayByKey,
+} from "@/utils/common-methods"
+import { MATERIALS } from "@/utils/constants"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -13,33 +18,37 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form"
-
+import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Separator } from "@/components/ui/separator"
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
-import { convertValuesToNumbers } from "@/lib/calculation"
-import { useState } from "react"
+import { MaterialGrade } from "@/containers/material-grade"
 
 const formSchema = z.object({
+  material: z.string().min(1, { message: "Material required" }),
+  yieldStrength: z.string().min(1, { message: "Yield strength required" }),
+  tensileStrength: z.string().min(1, { message: "Tensile strength required" }),
+  elongation: z.string().min(1, { message: "Tensile strength required" }),
   outerDia: z.string().min(1, { message: "Outer dia required" }),
   innerDia: z.string().min(1, { message: "Inner dia required" }),
-  buckingLength: z.string().min(1, { message: "Bucking length required" }),
-  rodLength: z.string().min(1, { message: "Rod Length required" }),
-  pullLoad: z.string().min(1, { message: "Pull load required" }),
-  pushForce: z.string().min(1, { message: "Push force required" }),
-  yield: z.string().min(1, { message: "Yield strength required" }),
-  young: z.string().min(1, { message: "Young modules required" }),
-  endCondition: z.string().min(1, { message: "End condition required" }),
+  joinFactor: z.string().min(1, { message: "Join factor required" }),
+  pressure: z.string().min(1, { message: "pressure required" }),
 })
 
-type Bulking = {
+type TThickness = {
   id: number
   units: string
   description: string
@@ -48,127 +57,112 @@ type Bulking = {
 }
 
 function Thickness() {
-  const [buckling, setBuckling] = useState<Bulking[]>([])
+  const [buckling, setBuckling] = useState<TThickness[]>([])
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      outerDia: "50",
-      innerDia: "0",
-      buckingLength: "830",
-      rodLength: "2793",
-      pullLoad: "245250",
-      pushForce: "76950.53",
-      yield: "640",
-      young: "210000",
-      endCondition: "1",
+      material: "E355",
+      yieldStrength: "340",
+      tensileStrength: "580",
+      elongation: "10",
+      outerDia: "50.8",
+      innerDia: "35.052",
+      joinFactor: "1",
+      pressure: "151.68",
     },
   })
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const data = convertValuesToNumbers(values)
+    const { material, ...rest } = values
+    const data = convertValuesToNumbers(rest)
     const calculations = {
-      areaOfCrossSection: function () {
-        return (Math.PI / 4) * (data.outerDia ** 2 - data.innerDia ** 2)
+      designStressYield() {
+        return data.yieldStrength * 0.3
       },
-      momentOfInertia: function () {
-        return (Math.PI / 64) * (data.outerDia ** 4 - data.innerDia ** 4)
+      designStressTensile() {
+        return data.tensileStrength * 0.5
       },
-      radiusOfGyration: function () {
-        const I = this.momentOfInertia()
-        const A = this.areaOfCrossSection()
-        return Math.sqrt(I / A)
+      shellThickness() {
+        return (data.outerDia - data.innerDia) / 2
       },
-      slendernessRatio: function () {
-        return data.buckingLength / this.radiusOfGyration()
+      allowableDesignStressYield() {
+        return (data.yieldStrength / 9.81) * 0.3
       },
-      eulerBucklingStressCompression: function () {
-        return data.pushForce / this.areaOfCrossSection()
+      requiredShellThickness() {
+        const f = this.allowableDesignStressYield()
+        return (data.pressure * data.innerDia) / (200 * f - data.pressure)
       },
-      eulerBucklingStressTension: function () {
-        const I = this.momentOfInertia()
-        return (
-          (data.endCondition * 3.14 ** 2 * data.young * I) /
-          data.buckingLength ** 2
-        )
+      safeFactorInsideDai() {
+        const t = this.shellThickness()
+        const r = this.requiredShellThickness()
+        return t / r
       },
-      safetyOfFactorInEulerBuckling: function () {
-        const Fe = this.eulerBucklingStressTension()
-        return Fe / data.pushForce
+      requiredShellThicknessOutside() {
+        const f = this.allowableDesignStressYield()
+        return (data.pressure * data.outerDia) / (200 * f + data.pressure)
       },
-      eulerBucklingStress: function () {
-        const A = this.areaOfCrossSection()
-        return data.pullLoad / A
+      safeFactorOutsideDia() {
+        const t = this.shellThickness()
+        const r = this.requiredShellThicknessOutside()
+        return t / r
       },
-      safetyOfFactorInEulerPull: function () {
-        const Fe = this.eulerBucklingStressTension()
-        return Fe / data.pullLoad
-      },
-      getResults: function () {
+      getResults() {
         return [
           {
             id: 1,
-            symbol: "A",
-            description: "Area of Cross Section",
-            result: this.areaOfCrossSection().toFixed(2),
-            units: "mm²",
+            symbol: "Yat",
+            description: "Allowable design stress (0.30% of Yield stress)",
+            result: this.designStressYield().toFixed(2),
+            units: "N/mm²",
           },
           {
             id: 2,
-            symbol: "I",
-            description: "Moment of Inertia",
-            result: this.momentOfInertia().toFixed(2),
-            units: "mm⁴",
+            symbol: "Yat",
+            description: "Allowable design stress (0.50% of Tensile stress)",
+            result: this.designStressTensile().toFixed(2),
+            units: "N/mm²",
           },
           {
             id: 3,
-            symbol: "r",
-            description: "Radius of Gyration",
-            result: this.radiusOfGyration().toFixed(2),
+            symbol: "t",
+            description: "Selected shell thickness",
+            result: this.shellThickness().toFixed(2),
             units: "mm",
           },
           {
             id: 4,
-            symbol: "Le/r",
-            description: "Slenderness Ratio",
-            result: this.slendernessRatio().toFixed(2),
-            units: "",
+            symbol: "f",
+            description: "Allowable design stress (0.30% of Yield stress)",
+            result: this.allowableDesignStressYield().toFixed(2),
+            units: "Kg/mm²",
           },
           {
             id: 5,
-            symbol: "Se",
-            description: "Euler Buckling Stress",
-            result: this.eulerBucklingStressCompression().toFixed(2),
-            units: "N/mm²",
+            symbol: "t",
+            description: "Required shell thickness (Inside Diameter) in mm",
+            result: this.requiredShellThickness().toFixed(2),
+            units: "7.874 less then",
           },
           {
             id: 6,
-            symbol: "Fe",
-            description: "Euler Force ,Buckling Load",
-            result: this.eulerBucklingStressTension().toFixed(2),
-            units: "N/mm²",
+            symbol: "",
+            description: "Safety of Factor, considering Inside diameter",
+            result: this.safeFactorInsideDai().toFixed(2),
+            units: "",
           },
           {
             id: 7,
-            symbol: "",
-            description:
-              "Safety of Factor In Euler Buckling > 2.5, Euler Force / Push Force",
-            result: this.safetyOfFactorInEulerBuckling().toFixed(2),
-            units: "",
+            symbol: "t",
+            description: "Required shell thickness (Outside Diameter) in mm",
+            result: this.requiredShellThicknessOutside().toFixed(2),
+            units: "7.874 less then",
           },
           {
             id: 8,
-            symbol: "Se",
-            description: "Euler Buckling stress",
-            result: this.eulerBucklingStress().toFixed(2),
-            units: "N/mm^2",
-          },
-          {
-            id: 9,
             symbol: "",
-            description:
-              "Safety of Factor In Euler Buckling > 2.5, Euler Force / Pull Force",
-            result: this.safetyOfFactorInEulerPull().toFixed(2),
-            units: "",
+            description: "Safety of Factor , considering Outside  diameter",
+            result: this.safeFactorOutsideDia().toFixed(2),
+            units: "7.874 less then",
           },
         ]
       },
@@ -180,19 +174,143 @@ function Thickness() {
   return (
     <>
       <Form {...form}>
-        <form className="mt-4 sm:mt-10 ">
+        <form className="mt-4 sm:mt-8">
           <div className="space-y-3">
-            <div className="leading-relaxed">
-              <h4 className="font-sans text-sm font-semibold  text-gray-900">
-                Rod Geometry
-                <span className="ml-2 text-[10px] font-normal">in mm</span>
+            <div>
+              <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
+                Material
+                <span className="ml-2 text-xs font-normal">in mm</span>
               </h4>
               <p className="text-xs">
-                Physical dimensions of the rod, including diameters, buckling
-                length, and extended length
+                Dimensions of the tube, including Material, yield strength,
+                tensile strength
               </p>
             </div>
-            <div className="grid gap-2 sm:grid-cols-4 sm:gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
+              <FormField
+                control={form.control}
+                name="material"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex gap-1">
+                      <Select
+                        onValueChange={(value) => {
+                          field.onChange(value)
+                          const selected = getObjectFromArrayByKey(
+                            MATERIALS,
+                            "materialGrade",
+                            value
+                          )
+                          if (selected) {
+                            form.setValue(
+                              "yieldStrength",
+                              selected?.yieldStress + ""
+                            )
+
+                            form.setValue(
+                              "tensileStrength",
+                              selected?.tensileStress + ""
+                            )
+
+                            form.setValue(
+                              "elongation",
+                              selected?.elongation + ""
+                            )
+                          }
+                        }}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger
+                            variant={"outline"}
+                            className="flex w-full justify-between overflow-hidden"
+                          >
+                            <SelectValue placeholder="Select a Material" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {MATERIALS.map(({ materialGrade }) => {
+                            return (
+                              <SelectItem
+                                key={materialGrade}
+                                value={materialGrade}
+                              >
+                                {materialGrade}
+                              </SelectItem>
+                            )
+                          })}
+                        </SelectContent>
+                      </Select>
+                      <MaterialGrade />
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="yieldStrength"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Enter yield strength"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="tensileStrength"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Enter tensile strength"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="elongation"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Enter elongation"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+          <Separator className="my-6" />
+          <div className="space-y-3">
+            <div>
+              <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
+                Tube
+                <span className="ml-2 text-xs font-normal">in mm</span>
+              </h4>
+              <p className="text-xs">
+                Tube dimensions of the cylinder, including diameters, join
+                factor, and pressure
+              </p>
+            </div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
               <FormField
                 control={form.control}
                 name="outerDia"
@@ -201,7 +319,7 @@ function Thickness() {
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Rod outer diameter"
+                        placeholder="Enter outer dai"
                         {...field}
                       />
                     </FormControl>
@@ -217,7 +335,7 @@ function Thickness() {
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Rod inner diameter"
+                        placeholder="Enter inner dia"
                         {...field}
                       />
                     </FormControl>
@@ -227,13 +345,13 @@ function Thickness() {
               />
               <FormField
                 control={form.control}
-                name="buckingLength"
+                name="joinFactor"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Rod bucking length"
+                        placeholder="Enter joint factor"
                         {...field}
                       />
                     </FormControl>
@@ -243,13 +361,13 @@ function Thickness() {
               />
               <FormField
                 control={form.control}
-                name="rodLength"
+                name="pressure"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Rod length"
+                        placeholder="Enter pressure"
                         {...field}
                       />
                     </FormControl>
@@ -257,134 +375,25 @@ function Thickness() {
                   </FormItem>
                 )}
               />
-            </div>
-          </div>
-          <Separator className="my-4 sm:my-8 " />
-          <div className="space-y-3">
-            <div className="leading-relaxed">
-              <h4 className="font-sans text-sm font-semibold  text-gray-900">
-                Loading Conditions
-                <span className="ml-2 text-[10px]  font-normal">in N</span>
-              </h4>
-              <p className="text-xs">
-                Forces applied to the rod, including tensile and compressive
-                loads.
-              </p>
-            </div>
-            <div className="grid gap-2 sm:grid-cols-4 sm:gap-3">
-              <FormField
-                control={form.control}
-                name="pullLoad"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input type="number" placeholder="Pull load" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="pushForce"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Push force"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-          <Separator className="my-4 h-[0.5px] sm:my-8" />
-          <div className="space-y-3">
-            <div className="leading-relaxed">
-              <h4 className="font-sans text-sm font-semibold  text-gray-900">
-                Support Parameters
-                <span className="ml-2 text-[10px]  font-normal">in N/mm2</span>
-              </h4>
-              <p className="text-xs">
-                End condition factor affecting the rod’s buckling behavior.
-              </p>
-            </div>
-            <div className="grid gap-2 sm:grid-cols-4 sm:gap-3">
-              <FormField
-                control={form.control}
-                name="yield"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Yield strength"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="young"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="number"
-                        placeholder="Young's modulus"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex space-x-1">
-                <FormField
-                  control={form.control}
-                  name="endCondition"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          type="number"
-                          placeholder="End condition"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <EndCondition />
-              </div>
             </div>
           </div>
         </form>
       </Form>
-      <div className="mt-5 sm:mt-10">
+      <div className="mt-10">
         <Button onClick={form.handleSubmit(onSubmit)} className="sm:w-[20%]">
           Calculate
         </Button>
       </div>
-
       {buckling && buckling.length > 0 && (
-        <div className="mt-10 space-y-2">
-          <h3 className=" font-sans text-lg font-semibold text-gray-900">
-            Piston Rod Buckling calculation
+        <div className="mt-10 space-y-3">
+          <h3 className="text-base font-semibold text-gray-900">
+            Cylinder wall Thickness calculation
           </h3>
-          <div className=" rounded-md border">
+          <div className="rounded-md border">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">Description</TableHead>
+                  <TableHead>Description</TableHead>
                   <TableHead>Symbol</TableHead>
                   <TableHead>Value</TableHead>
                   <TableHead>Units</TableHead>

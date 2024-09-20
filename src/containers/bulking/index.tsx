@@ -1,11 +1,12 @@
 "use client"
-import { Input } from "@/components/ui/input"
-import { EndCondition } from "@/containers/end-condition"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { useForm } from "react-hook-form"
+
+import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 import { z } from "zod"
+
+import { convertValuesToNumbers } from "@/utils/common-methods"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -13,19 +14,17 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form"
-
+import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-
-import { convertValuesToNumbers } from "@/lib/calculation"
-import { useState } from "react"
+import { EndCondition } from "@/containers/end-condition"
 
 const formSchema = z.object({
   outerDia: z.string().min(1, { message: "Outer dia required" }),
@@ -67,43 +66,43 @@ function Bulking() {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const data = convertValuesToNumbers(values)
     const calculations = {
-      areaOfCrossSection: function () {
+      areaOfCrossSection() {
         return (Math.PI / 4) * (data.outerDia ** 2 - data.innerDia ** 2)
       },
-      momentOfInertia: function () {
+      momentOfInertia() {
         return (Math.PI / 64) * (data.outerDia ** 4 - data.innerDia ** 4)
       },
-      radiusOfGyration: function () {
+      radiusOfGyration() {
         const I = this.momentOfInertia()
         const A = this.areaOfCrossSection()
         return Math.sqrt(I / A)
       },
-      slendernessRatio: function () {
+      slendernessRatio() {
         return data.buckingLength / this.radiusOfGyration()
       },
-      eulerBucklingStressCompression: function () {
+      eulerBucklingStressCompression() {
         return data.pushForce / this.areaOfCrossSection()
       },
-      eulerBucklingStressTension: function () {
+      eulerBucklingStressTension() {
         const I = this.momentOfInertia()
         return (
           (data.endCondition * 3.14 ** 2 * data.young * I) /
           data.buckingLength ** 2
         )
       },
-      safetyOfFactorInEulerBuckling: function () {
+      safetyOfFactorInEulerBuckling() {
         const Fe = this.eulerBucklingStressTension()
         return Fe / data.pushForce
       },
-      eulerBucklingStress: function () {
+      eulerBucklingStress() {
         const A = this.areaOfCrossSection()
         return data.pullLoad / A
       },
-      safetyOfFactorInEulerPull: function () {
+      safetyOfFactorInEulerPull() {
         const Fe = this.eulerBucklingStressTension()
         return Fe / data.pullLoad
       },
-      getResults: function () {
+      getResults() {
         return [
           {
             id: 1,
@@ -180,19 +179,19 @@ function Bulking() {
   return (
     <>
       <Form {...form}>
-        <form className="mt-4 sm:mt-10">
+        <form className="mt-4 sm:mt-8">
           <div className="space-y-3">
-            <div className="leading-relaxed">
-              <h4 className="font-sans text-sm font-semibold  text-gray-900">
+            <div>
+              <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
                 Rod Geometry
-                <span className="ml-2 text-[10px] font-normal">in mm</span>
+                <span className="ml-2 text-xs font-normal">in mm</span>
               </h4>
               <p className="text-xs">
                 Physical dimensions of the rod, including diameters, buckling
                 length, and extended length
               </p>
             </div>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
               <FormField
                 control={form.control}
                 name="outerDia"
@@ -259,19 +258,19 @@ function Bulking() {
               />
             </div>
           </div>
-          <Separator className="my-8 " />
+          <Separator className="my-6" />
           <div className="space-y-3">
-            <div className="leading-relaxed">
-              <h4 className="font-sans text-sm font-semibold  text-gray-900">
+            <div>
+              <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
                 Loading Conditions
-                <span className="ml-2 text-[10px]  font-normal">in N</span>
+                <span className="ml-2 text-[10px] font-normal">in N</span>
               </h4>
               <p className="text-xs">
                 Forces applied to the rod, including tensile and compressive
                 loads.
               </p>
             </div>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
               <FormField
                 control={form.control}
                 name="pullLoad"
@@ -292,7 +291,7 @@ function Bulking() {
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Push force"
+                        placeholder="Enter push force"
                         {...field}
                       />
                     </FormControl>
@@ -302,18 +301,18 @@ function Bulking() {
               />
             </div>
           </div>
-          <Separator className="my-8 h-[0.5px]" />
+          <Separator className="my-6 h-[0.5px]" />
           <div className="space-y-3">
-            <div className="leading-relaxed">
-              <h4 className="font-sans text-sm font-semibold  text-gray-900">
+            <div>
+              <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
                 Support Parameters
-                <span className="ml-2 text-[10px]  font-normal">in N/mm2</span>
+                <span className="ml-2 text-[10px] font-normal">in N/mm2</span>
               </h4>
               <p className="text-xs">
                 End condition factor affecting the rod’s buckling behavior.
               </p>
             </div>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
               <FormField
                 control={form.control}
                 name="yield"
@@ -354,8 +353,8 @@ function Bulking() {
                     <FormItem>
                       <FormControl>
                         <Input
-                          {...field}
                           type="number"
+                          {...field}
                           placeholder="End condition"
                         />
                       </FormControl>
@@ -376,15 +375,15 @@ function Bulking() {
       </div>
 
       {buckling && buckling.length > 0 && (
-        <div className="mt-10 space-y-2">
-          <h3 className=" font-sans text-lg font-semibold text-gray-900">
+        <div className="mt-10 space-y-3">
+          <h3 className="text-base font-semibold text-gray-900">
             Piston Rod Buckling calculation
           </h3>
-          <div className=" rounded-md border">
+          <div className="rounded-md border">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">Description</TableHead>
+                  <TableHead>Description</TableHead>
                   <TableHead>Symbol</TableHead>
                   <TableHead>Value</TableHead>
                   <TableHead>Units</TableHead>

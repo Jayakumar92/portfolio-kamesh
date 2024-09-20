@@ -1,3 +1,9 @@
+import Image from "next/image"
+import { TableProperties } from "lucide-react"
+
+import { material } from "@/assets/images"
+import { MATERIALS } from "@/utils/constants"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -6,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import {
   Table,
   TableBody,
@@ -14,19 +21,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { material } from "@/assets"
-
-import { MATERIALS } from "@/lib/data"
-
-import { Button } from "@/components/ui/button"
-import Image from "next/image"
 
 function MaterialGrade() {
   return (
     <Dialog>
-      <DialogTrigger asChild className="flex justify-end">
-        <Button className="text-primary" variant="link">
-          Material
+      <DialogTrigger asChild>
+        <Button variant={"outline"}>
+          <TableProperties className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-screen max-w-5xl">
@@ -37,19 +38,20 @@ function MaterialGrade() {
           </DialogDescription>
         </DialogHeader>
         <div className="flex gap-6">
-          <div className="relative flex  items-center justify-center ">
+          <div className="relative flex items-center justify-center">
             <Image src={material} alt="material" width={300} height={300} />
           </div>
-          <div className="flex-1">
+          <ScrollArea className="max-h-[500px] flex-1">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">Material Grade</TableHead>
+                  <TableHead>Material Grade</TableHead>
                   <TableHead>Yield Stress</TableHead>
                   <TableHead>Tensile Stress</TableHead>
                   <TableHead className="text-right">Elongation</TableHead>
                 </TableRow>
               </TableHeader>
+
               <TableBody>
                 {MATERIALS.map(
                   ({
@@ -59,18 +61,20 @@ function MaterialGrade() {
                     yieldStress,
                   }) => (
                     <TableRow key={materialGrade}>
-                      <TableCell className="font-medium">
+                      <TableCell className="text-xs font-medium">
                         {materialGrade}
                       </TableCell>
-                      <TableCell>{yieldStress}</TableCell>
-                      <TableCell>{tensileStress}</TableCell>
-                      <TableCell className="text-right">{elongation}</TableCell>
+                      <TableCell className="text-xs">{yieldStress}</TableCell>
+                      <TableCell className="text-xs">{tensileStress}</TableCell>
+                      <TableCell className="text-right text-xs">
+                        {elongation === "" ? `${elongation}` : `${elongation}%`}
+                      </TableCell>
                     </TableRow>
                   )
                 )}
               </TableBody>
             </Table>
-          </div>
+          </ScrollArea>
         </div>
       </DialogContent>
     </Dialog>
