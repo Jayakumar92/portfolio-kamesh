@@ -34,6 +34,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { FormHint } from "@/components/shared/form-hint"
+import { MaterialInfo } from "@/containers/material-info"
 
 const formSchema = z.object({
   boreDia: z.string().min(1, { message: "Bore dia required" }),
@@ -327,8 +328,9 @@ function Trelleborg() {
         <form className="mt-4 sm:mt-8">
           <div className="space-y-3">
             <div>
-              <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
+              <h4 className="inline-flex cursor-pointer items-center justify-center font-sans text-sm font-semibold leading-normal text-gray-900">
                 Cylinder
+                <MaterialInfo />
               </h4>
               <p className="text-xs">
                 Hydraulic dimensions of the cylinder, including bore, rod
