@@ -87,30 +87,40 @@ export const POLICES = [
   },
 ]
 
-export const END_CONDITIONS: { endCondition: string; value: number }[] = [
+export const END_CONDITIONS: {
+  id: string
+  endCondition: string
+  value: string
+}[] = [
   {
+    id: "1",
     endCondition: "Both Ends are Hinged (Pivoted)",
-    value: 1,
+    value: "1",
   },
   {
+    id: "2",
     endCondition: "Both Ends are Fixed",
-    value: 4,
+    value: "4",
   },
   {
+    id: "3",
     endCondition: "One End Fixed and Other End Hinged",
-    value: 2,
+    value: "2",
   },
   {
+    id: "4",
     endCondition: "One End Fixed and Other End Free",
-    value: 0.25,
+    value: "0.25",
   },
   {
+    id: "5",
     endCondition: "Radial Gate, Hinged",
-    value: 1,
+    value: "1",
   },
   {
+    id: "6",
     endCondition: "SFT, Fixed and Guided",
-    value: 2,
+    value: "2",
   },
 ]
 export const MATERIALS: TMATERIAL[] = [

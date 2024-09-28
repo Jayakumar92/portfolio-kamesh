@@ -41,7 +41,7 @@ import { FormHint } from "@/components/shared/form-hint"
 import { MaterialGrade } from "@/containers/material-grade"
 
 const formSchema = z.object({
-  material: z.string().min(1, { message: "Material required" }),
+  material: z.string().optional(),
   yieldStrength: z.string().min(1, { message: "Yield strength required" }),
   tensileStrength: z.string().min(1, { message: "Tensile strength required" }),
   elongation: z.string().min(1, { message: "Tensile strength required" }),
@@ -56,22 +56,14 @@ function Thickness() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      // material: "",
-      // yieldStrength: "",
-      // tensileStrength: "",
-      // elongation: "",
-      // outerDia: "",
-      // innerDia: "",
-      // joinFactor: "",
-      // pressure: "",
-      material: "E355",
-      yieldStrength: "340",
-      tensileStrength: "580",
-      elongation: "10",
-      outerDia: "50.8",
-      innerDia: "35.052",
-      joinFactor: "1",
-      pressure: "151.68",
+      material: "",
+      yieldStrength: "",
+      tensileStrength: "",
+      elongation: "",
+      outerDia: "",
+      innerDia: "",
+      joinFactor: "",
+      pressure: "",
     },
   })
 

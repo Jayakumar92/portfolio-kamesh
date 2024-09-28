@@ -15,7 +15,7 @@ function Resources() {
         <span className="text-sm text-slate-600">Back</span>
       </Link>
 
-      <Tabs defaultValue="buckling">
+      <Tabs defaultValue="hydraulic">
         <TabsList className="grid grid-cols-3">
           <TabsTrigger value="hydraulic">Hydraulic Cylinder</TabsTrigger>
           <TabsTrigger value="thickness">Tube Wall thickness</TabsTrigger>
