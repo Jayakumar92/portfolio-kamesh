@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import { useState } from "react"
@@ -16,6 +17,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -35,10 +37,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { FormHint } from "@/components/shared/form-hint"
 import { MaterialGrade } from "@/containers/material-grade"
 
 const formSchema = z.object({
-  material: z.string().min(1, { message: "Material required" }),
+  material: z.string().optional(),
   yieldStrength: z.string().min(1, { message: "Yield strength required" }),
   tensileStrength: z.string().min(1, { message: "Tensile strength required" }),
   elongation: z.string().min(1, { message: "Tensile strength required" }),
@@ -48,27 +51,19 @@ const formSchema = z.object({
   pressure: z.string().min(1, { message: "pressure required" }),
 })
 
-type TThickness = {
-  id: number
-  units: string
-  description: string
-  result: string
-  symbol: string
-}
-
 function Thickness() {
-  const [buckling, setBuckling] = useState<TThickness[]>([])
+  const [buckling, setBuckling] = useState<any[]>([])
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      material: "E355",
-      yieldStrength: "340",
-      tensileStrength: "580",
-      elongation: "10",
-      outerDia: "50.8",
-      innerDia: "35.052",
-      joinFactor: "1",
-      pressure: "151.68",
+      material: "",
+      yieldStrength: "",
+      tensileStrength: "",
+      elongation: "",
+      outerDia: "",
+      innerDia: "",
+      joinFactor: "",
+      pressure: "",
     },
   })
 
@@ -111,59 +106,80 @@ function Thickness() {
         return [
           {
             id: 1,
-            symbol: "Yat",
-            description: "Allowable design stress (0.30% of Yield stress)",
-            result: this.designStressYield().toFixed(2),
-            units: "N/mm²",
+            type: "sub-heading",
+            description: "Allowable Design Stress",
           },
           {
             id: 2,
             symbol: "Yat",
-            description: "Allowable design stress (0.50% of Tensile stress)",
-            result: this.designStressTensile().toFixed(2),
+            description: "Allowable design stress (0.30% of Yield stress)",
+            result: this.designStressYield().toFixed(2),
             units: "N/mm²",
+            type: "cell",
           },
           {
             id: 3,
-            symbol: "t",
-            description: "Selected shell thickness",
-            result: this.shellThickness().toFixed(2),
-            units: "mm",
+            symbol: "Yat",
+            description: "Allowable design stress (0.50% of Tensile stress)",
+            result: this.designStressTensile().toFixed(2),
+            units: "N/mm²",
+            type: "cell",
           },
           {
             id: 4,
-            symbol: "f",
-            description: "Allowable design stress (0.30% of Yield stress)",
-            result: this.allowableDesignStressYield().toFixed(2),
-            units: "Kg/mm²",
+            type: "sub-heading",
+            description: "Selectable Wall thickness",
           },
           {
             id: 5,
             symbol: "t",
-            description: "Required shell thickness (Inside Diameter) in mm",
-            result: this.requiredShellThickness().toFixed(2),
-            units: "7.874 less then",
+            description: "Selected shell thickness",
+            result: this.shellThickness().toFixed(2),
+            units: "mm",
+            type: "cell",
           },
           {
             id: 6,
-            symbol: "",
-            description: "Safety of Factor, considering Inside diameter",
-            result: this.safeFactorInsideDai().toFixed(2),
-            units: "",
+            type: "sub-heading",
+            description: "Considering Inside Diameter",
           },
           {
             id: 7,
             symbol: "t",
-            description: "Required shell thickness (Outside Diameter) in mm",
-            result: this.requiredShellThicknessOutside().toFixed(2),
-            units: "7.874 less then",
+            description: "Required shell thickness",
+            result: this.requiredShellThickness().toFixed(2),
+            units: this.shellThickness().toFixed(2) + " less then",
+            type: "cell",
           },
+
           {
             id: 8,
             symbol: "",
-            description: "Safety of Factor , considering Outside  diameter",
+            description: "Safety of Factor",
+            result: this.safeFactorInsideDai().toFixed(2),
+            units: "",
+            type: "cell",
+          },
+          {
+            id: 9,
+            type: "sub-heading",
+            description: "Considering Outside Diameter",
+          },
+          {
+            id: 10,
+            symbol: "t",
+            description: "Required shell thickness",
+            result: this.requiredShellThicknessOutside().toFixed(2),
+            units: this.shellThickness().toFixed(2) + " less then",
+            type: "cell",
+          },
+          {
+            id: 11,
+            symbol: "",
+            description: "Safety of Factor",
             result: this.safeFactorOutsideDia().toFixed(2),
-            units: "7.874 less then",
+            units: "",
+            type: "cell",
           },
         ]
       },
@@ -180,7 +196,6 @@ function Thickness() {
             <div>
               <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
                 Material
-                <span className="ml-2 text-xs font-normal">in mm</span>
               </h4>
               <p className="text-xs">
                 Dimensions of the tube, including Material, yield strength,
@@ -193,6 +208,7 @@ function Thickness() {
                 name="material"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>Material</FormLabel>
                     <div className="flex gap-1">
                       <Select
                         onValueChange={(value) => {
@@ -254,6 +270,7 @@ function Thickness() {
                 name="yieldStrength"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>Yield Strength</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -270,6 +287,7 @@ function Thickness() {
                 name="tensileStrength"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>Tensile Strength</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -286,6 +304,10 @@ function Thickness() {
                 name="elongation"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Elongation<FormHint>%</FormHint>
+                    </FormLabel>
+
                     <FormControl>
                       <Input
                         type="number"
@@ -304,7 +326,6 @@ function Thickness() {
             <div>
               <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
                 Tube
-                <span className="ml-2 text-xs font-normal">in mm</span>
               </h4>
               <p className="text-xs">
                 Tube dimensions of the cylinder, including diameters, join
@@ -317,6 +338,10 @@ function Thickness() {
                 name="outerDia"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Outer Diameter<FormHint>mm</FormHint>
+                    </FormLabel>
+
                     <FormControl>
                       <Input
                         type="number"
@@ -333,6 +358,10 @@ function Thickness() {
                 name="innerDia"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Inner Diameter<FormHint>mm</FormHint>
+                    </FormLabel>
+
                     <FormControl>
                       <Input
                         type="number"
@@ -349,6 +378,7 @@ function Thickness() {
                 name="joinFactor"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>Joint Factor</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -365,6 +395,9 @@ function Thickness() {
                 name="pressure"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Pressure<FormHint>bar</FormHint>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -401,14 +434,33 @@ function Thickness() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {buckling.map(({ id, description, result, units, symbol }) => (
-                  <TableRow key={id}>
-                    <TableCell className="font-medium">{description}</TableCell>
-                    <TableCell>{symbol}</TableCell>
-                    <TableCell>{result}</TableCell>
-                    <TableCell>{units}</TableCell>
-                  </TableRow>
-                ))}
+                {buckling.map(
+                  ({ id, description, result, units, symbol, type }) => (
+                    <>
+                      {type === "sub-heading" && (
+                        <TableRow>
+                          <TableCell
+                            colSpan={4}
+                            className="bg-slate-50 font-semibold"
+                          >
+                            {description}
+                          </TableCell>
+                        </TableRow>
+                      )}
+
+                      {type === "cell" && (
+                        <TableRow key={id}>
+                          <TableCell className="font-medium">
+                            {description}
+                          </TableCell>
+                          <TableCell>{symbol}</TableCell>
+                          <TableCell>{result}</TableCell>
+                          <TableCell>{units}</TableCell>
+                        </TableRow>
+                      )}
+                    </>
+                  )
+                )}
               </TableBody>
             </Table>
           </div>

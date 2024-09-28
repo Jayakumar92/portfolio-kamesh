@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation"
 import { NAV_LINKS } from "@/utils/constants"
 import { useScroll } from "@/hooks"
 import { Button } from "@/components/ui/button"
+import { Icon } from "@/components/ui/icon"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/components/utils"
 import Typography from "@/containers/general/typography"
 import Link from "@/containers/navigation/link"
@@ -30,23 +32,48 @@ const Header = () => {
         <Link href="/" noCustomization>
           <Logo />
         </Link>
-        <div className="hidden items-center gap-6 md:flex">
-          <ul className="flex list-none items-center gap-6">
+        <div className="flex items-center gap-3 md:gap-6">
+          <ul className="hidden list-none items-center gap-6 md:flex">
             {NAV_LINKS.map((link, index) => (
               <li key={index}>
                 <Link href={link.href}>{link.label}</Link>
               </li>
             ))}
           </ul>
-          <div className="h-6 w-0.5 bg-gray-100"></div>
+
+          <div className="hidden h-6 w-0.5 bg-gray-100 md:flex"></div>
           <div className="flex items-center gap-4">
             <Button
               onClick={() => {
                 router.push("/hydraulic-calculations")
               }}
+              size={"sm"}
             >
               Hydraulic Calculations
             </Button>
+          </div>
+          <div className="flex md:hidden">
+            <Sheet>
+              <SheetTrigger>
+                <Button variant={"ghost"} onClick={() => {}} size={"sm"}>
+                  <Icon name="Menu" className="cursor-pointer" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent className="max-w-96">
+                <ul className="mt-8 flex flex-col items-center justify-center space-y-6">
+                  {NAV_LINKS.map((link, index) => (
+                    <li key={index}>
+                      <Link
+                        className="text-base font-medium text-gray-800 hover:underline hover:underline-offset-2"
+                        href={link.href}
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>

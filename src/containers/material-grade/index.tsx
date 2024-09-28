@@ -1,7 +1,5 @@
-import Image from "next/image"
 import { TableProperties } from "lucide-react"
 
-import { material } from "@/assets/images"
 import { MATERIALS } from "@/utils/constants"
 import { Button } from "@/components/ui/button"
 import {
@@ -30,18 +28,15 @@ function MaterialGrade() {
           <TableProperties className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-screen max-w-5xl">
+      <DialogContent className="max-h-screen max-w-3xl">
         <DialogHeader>
           <DialogTitle>Material</DialogTitle>
           <DialogDescription>
             {`This table lists the material grades with their yield stress, tensile stress, and elongation values.`}
           </DialogDescription>
         </DialogHeader>
-        <div className="flex gap-6">
-          <div className="relative flex items-center justify-center">
-            <Image src={material} alt="material" width={300} height={300} />
-          </div>
-          <ScrollArea className="max-h-[500px] flex-1">
+        <div className="flex w-full">
+          <ScrollArea className="max-h-[500px] w-full px-3">
             <Table>
               <TableHeader>
                 <TableRow>

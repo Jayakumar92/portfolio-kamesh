@@ -15,13 +15,13 @@ function Resources() {
         <span className="text-sm text-slate-600">Back</span>
       </Link>
 
-      <Tabs defaultValue="trelleborg">
+      <Tabs defaultValue="hydraulic">
         <TabsList className="grid grid-cols-3">
-          <TabsTrigger value="trelleborg">Trelleborg</TabsTrigger>
+          <TabsTrigger value="hydraulic">Hydraulic Cylinder</TabsTrigger>
           <TabsTrigger value="thickness">Tube Wall thickness</TabsTrigger>
-          <TabsTrigger value="buckling">Buckling</TabsTrigger>
+          <TabsTrigger value="buckling">Rod Buckling</TabsTrigger>
         </TabsList>
-        <TabsContent value="trelleborg">
+        <TabsContent value="hydraulic">
           <Trelleborg />
         </TabsContent>
         <TabsContent value="thickness">
