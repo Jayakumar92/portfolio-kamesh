@@ -12,6 +12,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -24,6 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { FormHint } from "@/components/shared/form-hint"
 import { EndCondition } from "@/containers/end-condition"
 
 const formSchema = z.object({
@@ -51,15 +53,25 @@ function Bulking() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      outerDia: "50",
-      innerDia: "0",
-      buckingLength: "830",
-      rodLength: "2793",
-      pullLoad: "245250",
-      pushForce: "76950.53",
-      yield: "640",
-      young: "210000",
-      endCondition: "1",
+      // outerDia: "50",
+      // innerDia: "0",
+      // buckingLength: "830",
+      // rodLength: "2793",
+      // pullLoad: "245250",
+      // pushForce: "76950.53",
+      // yield: "640",
+      // young: "210000",
+      // endCondition: "1",
+
+      outerDia: "",
+      innerDia: "",
+      buckingLength: "",
+      rodLength: "",
+      pullLoad: "",
+      pushForce: "",
+      yield: "",
+      young: "",
+      endCondition: "",
     },
   })
 
@@ -184,7 +196,6 @@ function Bulking() {
             <div>
               <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
                 Rod Geometry
-                <span className="ml-2 text-xs font-normal">in mm</span>
               </h4>
               <p className="text-xs">
                 Physical dimensions of the rod, including diameters, buckling
@@ -197,6 +208,10 @@ function Bulking() {
                 name="outerDia"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Outer Diameter<FormHint>mm</FormHint>
+                    </FormLabel>
+
                     <FormControl>
                       <Input
                         type="number"
@@ -213,6 +228,9 @@ function Bulking() {
                 name="innerDia"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Inner Diameter<FormHint>mm</FormHint>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -229,6 +247,10 @@ function Bulking() {
                 name="buckingLength"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Rod Bucking<FormHint>mm</FormHint>
+                    </FormLabel>
+
                     <FormControl>
                       <Input
                         type="number"
@@ -245,6 +267,9 @@ function Bulking() {
                 name="rodLength"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Rod Length<FormHint>mm</FormHint>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -276,8 +301,16 @@ function Bulking() {
                 name="pullLoad"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Pull Load<FormHint>N</FormHint>
+                    </FormLabel>
+
                     <FormControl>
-                      <Input type="number" placeholder="Pull load" {...field} />
+                      <Input
+                        type="number"
+                        placeholder="Enter pull load"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -288,6 +321,9 @@ function Bulking() {
                 name="pushForce"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Push Load<FormHint>N</FormHint>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -305,11 +341,11 @@ function Bulking() {
           <div className="space-y-3">
             <div>
               <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
-                Support Parameters
-                <span className="ml-2 text-[10px] font-normal">in N/mm2</span>
+                Material
               </h4>
               <p className="text-xs">
-                End condition factor affecting the rod’s buckling behavior.
+                Dimensions of the tube, including Material, yield strength,
+                tensile strength
               </p>
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">

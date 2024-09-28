@@ -5,6 +5,8 @@ export type TMATERIAL = {
   yieldStress: number
   tensileStress: number
   elongation: string | null
+  material: string
+  standard: string
 }
 
 export type TechDetails = {
