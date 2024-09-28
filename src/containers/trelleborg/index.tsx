@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import { useState } from "react"
@@ -12,9 +13,17 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import {
   Table,
@@ -24,6 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { FormHint } from "@/components/shared/form-hint"
 
 const formSchema = z.object({
   boreDia: z.string().min(1, { message: "Bore dia required" }),
@@ -37,19 +47,22 @@ const formSchema = z.object({
   cylinder: z.string().min(1, { message: "Test pressure required" }),
 })
 
-type TrelleborgT = {
-  id: number
-  units: string
-  description: string
-  result: string
-  symbol: string
-}
-
 function Trelleborg() {
-  const [trelleborg, setTrelleborg] = useState<TrelleborgT[]>([])
+  const [trelleborg, setTrelleborg] = useState<any[]>([])
+  const [hydraulicPower, setHydraulicPower] = useState<any[]>([])
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      // boreDia: "",
+      // rodDia: "",
+      // stockLength: "",
+      // rodPressure: "",
+      // borePressure: "",
+      // testPressure: "",
+      // rodSpeed: "",
+      // pistonSpeed: "",
+      // cylinder: "1",
       boreDia: "125",
       rodDia: "70",
       stockLength: "400",
@@ -82,11 +95,11 @@ function Trelleborg() {
       },
       volumeOfRodSide() {
         const Ar = this.rodAreaOfCylinder()
-        return Ar * data.stockLength
+        return (Ar * data.stockLength) / 1000000
       },
       volumeOfPistonSide() {
         const Ab = this.pistonAreaOfCylinder()
-        return Ab * data.stockLength
+        return (Ab * data.stockLength) / 1000000
       },
       testPressureRodSide() {
         return data.rodPressure * data.testPressure
@@ -96,11 +109,11 @@ function Trelleborg() {
       },
       pullingForceRodeSide() {
         const Ar = this.rodAreaOfCylinder()
-        return 0.01 * data.rodPressure * Ar
+        return (0.01 * data.rodPressure * Ar) / 1000
       },
       pushingForcePistonSide() {
         const Ab = this.pistonAreaOfCylinder()
-        return 0.01 * data.borePressure * Ab
+        return (0.01 * data.borePressure * Ab) / 1000
       },
       liftingCylinderRodSideSpeed() {
         return data.rodSpeed * 0.166
@@ -112,20 +125,20 @@ function Trelleborg() {
         const Ar = this.rodAreaOfCylinder() / 100
         const rod = data.rodSpeed * 100
 
-        return Ar * rod
+        return (Ar * rod) / 1000
       },
       loweringFlowPistonSide() {
         const Ab = this.pistonAreaOfCylinder() / 100
         const rod = data.pistonSpeed * 100
 
-        return Ab * rod
+        return (Ab * rod) / 1000
       },
       pumpRodSide() {
-        const lfp = this.liftingFlowRodSide() / 1000
+        const lfp = this.liftingFlowRodSide()
         return lfp * data.cylinder
       },
       pumpPistonSide() {
-        const lfp = this.loweringFlowPistonSide() / 1000
+        const lfp = this.loweringFlowPistonSide()
         return lfp * data.cylinder
       },
       motorRodSide() {
@@ -141,139 +154,180 @@ function Trelleborg() {
       motorPistonSide10() {
         return this.motorPistonSide() * 1.1
       },
-      getResults() {
+      motorRodSide10() {
+        return this.motorRodSide() * 1.1
+      },
+      getHydraulicCylinder() {
         return [
           {
             id: 1,
+            type: "sub-heading",
+            description: "Area",
+          },
+          {
+            id: 2,
             symbol: "A-r",
             description: "Annulur (Rod side)  Area of Cylinder",
             result: this.rodAreaOfCylinder().toFixed(2),
             units: "mm²",
+            type: "cell",
           },
           {
-            id: 2,
+            id: 3,
             symbol: "A-b",
             description: "Piston Side Area of Cylinder",
             result: this.pistonAreaOfCylinder().toFixed(2),
             units: "mm²",
+            type: "cell",
           },
           {
-            id: 3,
+            id: 4,
             symbol: "z",
             description: "Ratio = Area(Bore) / Area(Rod),",
             result: this.radio().toFixed(2),
             units: "",
-          },
-          {
-            id: 4,
-            symbol: "V-r",
-            description: "Volume of Annular (Rod) Side",
-            result: this.volumeOfRodSide().toFixed(2),
-            units: "mm³",
+            type: "cell",
           },
           {
             id: 5,
-            symbol: "V-b",
-            description: "Volume of Piston Side",
-            result: this.volumeOfPistonSide().toFixed(2),
-            units: "mm³",
+            type: "sub-heading",
+            description: "Volume",
           },
           {
             id: 6,
-            symbol: "Pr",
-            description: "Test Pressure at Rod side",
-            result: this.testPressureRodSide().toFixed(2),
-            units: "bar",
+            symbol: "V-r",
+            description: "Volume of Annular (Rod) Side",
+            result: this.volumeOfRodSide().toFixed(2),
+            units: "Litre",
+            type: "cell",
           },
           {
             id: 7,
-            symbol: "Pp",
-            description: "Test Pressure at Bore  side",
-            result: this.testPressureBoreSide().toFixed(2),
-            units: "bar",
+            symbol: "V-b",
+            description: "Volume of Piston Side",
+            result: this.volumeOfPistonSide().toFixed(2),
+            units: "Litre",
+            type: "cell",
           },
+
           {
             id: 8,
-            symbol: "F",
-            description: "Pulling Force - Rod Side",
-            result: this.pullingForceRodeSide().toFixed(2),
-            units: "KgF",
+            type: "sub-heading",
+            description: "Force",
           },
           {
             id: 9,
             symbol: "F",
-            description: "Pushing Force - Piston Side",
-            result: this.pushingForcePistonSide().toFixed(2),
-            units: "KgF",
+            description: "Pulling Force - Rod Side",
+            result: this.pullingForceRodeSide().toFixed(2),
+            units: "Ton",
+            type: "cell",
           },
           {
             id: 10,
-            symbol: "",
-            description: "Lifting Cylinder -Rod Side",
-            result: this.liftingCylinderRodSideSpeed().toFixed(2),
-            units: "m/sec",
+            symbol: "F",
+            description: "Pushing Force - Piston Side",
+            result: this.pushingForcePistonSide().toFixed(2),
+            units: "Ton",
+            type: "cell",
           },
           {
             id: 11,
-            symbol: "",
-            description: "Lowering Cylinder - Piston side",
-            result: this.loweringCylinderPistonSideSpeed().toFixed(2),
-            units: "m/sec",
+            type: "sub-heading",
+            description: "Speed",
           },
           {
             id: 12,
             symbol: "",
-            description: "Lifting  Flow - Rod Side",
-            result: this.liftingFlowRodSide().toFixed(2),
-            units: "cm³/min",
+            description: "Lifting Cylinder -Rod Side",
+            result: this.liftingCylinderRodSideSpeed().toFixed(2),
+            units: "m/sec",
+            type: "cell",
           },
           {
             id: 13,
             symbol: "",
-            description: "Lowering Flow - Piston Side",
-            result: this.loweringFlowPistonSide().toFixed(2),
-            units: "cm³/min",
+            description: "Lowering Cylinder - Piston side",
+            result: this.loweringCylinderPistonSideSpeed().toFixed(2),
+            units: "m/sec",
+            type: "cell",
           },
           {
             id: 14,
-            symbol: "",
-            description: "Pump - Rod side",
-            result: this.pumpRodSide().toFixed(2),
-            units: "LPM",
+            type: "sub-heading",
+            description: "Flow",
           },
+
           {
             id: 15,
             symbol: "",
-            description: "Pump - Piston side",
-            result: this.pumpPistonSide().toFixed(2),
+            description: "Lifting  Flow - Rod Side",
+            result: this.liftingFlowRodSide().toFixed(2),
             units: "LPM",
+            type: "cell",
           },
           {
             id: 16,
             symbol: "",
-            description: "Motor - Rod side",
-            result: this.motorRodSide().toFixed(2),
-            units: "KW",
+            description: "Lowering Flow - Piston Side",
+            result: this.loweringFlowPistonSide().toFixed(2),
+            units: "LPM",
+            type: "cell",
+          },
+        ]
+      },
+      getHydraulicParameter() {
+        return [
+          {
+            id: 1,
+            type: "sub-heading",
+            description: "Pump",
           },
           {
-            id: 17,
+            id: 2,
+            symbol: "",
+            description: "Pump - Rod side",
+            result: this.pumpRodSide().toFixed(2),
+            units: "LPM",
+            type: "cell",
+          },
+          {
+            id: 3,
+            symbol: "",
+            description: "Pump - Piston side",
+            result: this.pumpPistonSide().toFixed(2),
+            units: "LPM",
+            type: "cell",
+          },
+          {
+            id: 4,
+            type: "sub-heading",
+            description: "Motor - 10%",
+          },
+          {
+            id: 5,
             symbol: "",
             description: "Motor - Piston Side",
-            result: this.motorPistonSide().toFixed(2),
+            result: this.motorRodSide10().toFixed(2),
             units: "KW",
+            type: "cell",
           },
           {
-            id: 18,
+            id: 6,
             symbol: "",
-            description: "Motor - Piston Side - 10%",
+            description: "Motor - Piston Side",
             result: this.motorPistonSide10().toFixed(2),
             units: "KW",
+            type: "cell",
           },
         ]
       },
     }
-    const resultsArray = calculations.getResults()
+    const resultsArray = calculations.getHydraulicCylinder()
+    const hydraulicParameter = calculations.getHydraulicParameter()
+
     setTrelleborg(resultsArray)
+    setHydraulicPower(hydraulicParameter)
   }
 
   return (
@@ -284,7 +338,6 @@ function Trelleborg() {
             <div>
               <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
                 Cylinder
-                <span className="ml-2 text-xs font-normal">in mm</span>
               </h4>
               <p className="text-xs">
                 Hydraulic dimensions of the cylinder, including bore, rod
@@ -297,6 +350,9 @@ function Trelleborg() {
                 name="boreDia"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Bore Diameter<FormHint>mm</FormHint>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -313,10 +369,13 @@ function Trelleborg() {
                 name="rodDia"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Rod Diameter<FormHint>mm</FormHint>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
-                        placeholder="Enter inner diameter"
+                        placeholder="Enter rod diameter"
                         {...field}
                       />
                     </FormControl>
@@ -329,6 +388,9 @@ function Trelleborg() {
                 name="stockLength"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Stock Length<FormHint>mm</FormHint>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -347,7 +409,6 @@ function Trelleborg() {
             <div>
               <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
                 Pressure
-                <span className="ml-2 text-xs font-normal">in bar</span>
               </h4>
               <p className="text-xs">
                 Hydraulic dimensions of the cylinder, including bore, rod
@@ -360,6 +421,9 @@ function Trelleborg() {
                 name="rodPressure"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Bore side pressure<FormHint>Bar</FormHint>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -376,6 +440,9 @@ function Trelleborg() {
                 name="borePressure"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Rod side pressure<FormHint>Bar</FormHint>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -392,6 +459,9 @@ function Trelleborg() {
                 name="testPressure"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Test Pressure<FormHint>%</FormHint>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -410,7 +480,6 @@ function Trelleborg() {
             <div>
               <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
                 Speed / Cylinder
-                <span className="ml-2 text-xs font-normal">in m/min</span>
               </h4>
               <p className="text-xs">
                 Operation speeds of a hydraulic cylinder for both lifting and
@@ -423,6 +492,9 @@ function Trelleborg() {
                 name="rodSpeed"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Rod Side Speed<FormHint>m/min</FormHint>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -439,6 +511,9 @@ function Trelleborg() {
                 name="pistonSpeed"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel>
+                      Piston Side Speed<FormHint>m/min</FormHint>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -454,14 +529,31 @@ function Trelleborg() {
                 control={form.control}
                 name="cylinder"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Enter no of cylinder"
-                        {...field}
-                      />
-                    </FormControl>
+                  <FormItem className="mt-1 flex flex-col">
+                    <FormLabel>No of Cylinder</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger
+                          variant={"outline"}
+                          className="gap-[3px]"
+                        >
+                          <SelectValue />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Array.from({ length: 10 }, (_, i) => {
+                          const n = i + 1 + ""
+                          return (
+                            <SelectItem key={n} value={n}>
+                              {n}
+                            </SelectItem>
+                          )
+                        })}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -493,15 +585,77 @@ function Trelleborg() {
               </TableHeader>
               <TableBody>
                 {trelleborg.map(
-                  ({ id, description, result, units, symbol }) => (
-                    <TableRow key={id}>
-                      <TableCell className="font-medium">
-                        {description}
-                      </TableCell>
-                      <TableCell>{symbol}</TableCell>
-                      <TableCell>{result}</TableCell>
-                      <TableCell>{units}</TableCell>
-                    </TableRow>
+                  ({ id, description, result, units, symbol, type }) => (
+                    <>
+                      {type === "sub-heading" && (
+                        <TableRow>
+                          <TableCell
+                            colSpan={4}
+                            className="bg-slate-50 font-semibold"
+                          >
+                            {description}
+                          </TableCell>
+                        </TableRow>
+                      )}
+                      {type === "cell" && (
+                        <TableRow key={id}>
+                          <TableCell className="font-medium">
+                            {description}
+                          </TableCell>
+                          <TableCell>{symbol}</TableCell>
+                          <TableCell>{result}</TableCell>
+                          <TableCell>{units}</TableCell>
+                        </TableRow>
+                      )}
+                    </>
+                  )
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      )}
+
+      {hydraulicPower && hydraulicPower.length > 0 && (
+        <div className="mt-10 space-y-3">
+          <h3 className="text-base font-semibold text-gray-900">
+            Hydraulic Power Parameter
+          </h3>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Description</TableHead>
+                  <TableHead>Symbol</TableHead>
+                  <TableHead>Value</TableHead>
+                  <TableHead>Units</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {hydraulicPower.map(
+                  ({ id, description, result, units, symbol, type }) => (
+                    <>
+                      {type === "sub-heading" && (
+                        <TableRow>
+                          <TableCell
+                            colSpan={4}
+                            className="bg-slate-50 font-semibold"
+                          >
+                            {description}
+                          </TableCell>
+                        </TableRow>
+                      )}
+                      {type === "cell" && (
+                        <TableRow key={id}>
+                          <TableCell className="font-medium">
+                            {description}
+                          </TableCell>
+                          <TableCell>{symbol}</TableCell>
+                          <TableCell>{result}</TableCell>
+                          <TableCell>{units}</TableCell>
+                        </TableRow>
+                      )}
+                    </>
                   )
                 )}
               </TableBody>
