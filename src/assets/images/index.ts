@@ -11,6 +11,8 @@ import productDesign from "./product-design/product-design.png"
 import qualityAssurance from "./quality-assurance/quality-assurance.png"
 import solidEdge from "./solid-edge/solid-edge.png"
 import solidWorks from "./solid-works/solid-works.png"
+import stress from "./stress/stress.png"
+import thread from "./thread/thread.png"
 import user from "./user/user.jpg"
 
 export {
@@ -28,4 +30,6 @@ export {
   solidEdge,
   nx,
   solidWorks,
+  thread,
+  stress,
 }

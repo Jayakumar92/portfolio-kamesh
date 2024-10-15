@@ -39,6 +39,7 @@ import {
 } from "@/components/ui/table"
 import { FormHint } from "@/components/shared/form-hint"
 import { MaterialGrade } from "@/containers/material-grade"
+import { ThreadInfo } from "@/containers/thread-info"
 
 const formSchema = z.object({
   prMaterial: z.string().optional(),
@@ -462,9 +463,11 @@ function Thread() {
           <Separator className="my-6" />
           <div className="space-y-3">
             <div>
-              <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
+              <h4 className="inline-flex cursor-pointer items-center justify-center font-sans text-sm font-semibold leading-normal text-gray-900">
                 Thread
+                <ThreadInfo />
               </h4>
+
               <p className="text-xs">
                 Piston and rod dimensions of the Thread, including Diameters and
                 Length,

@@ -39,6 +39,7 @@ import {
 } from "@/components/ui/table"
 import { FormHint } from "@/components/shared/form-hint"
 import { MaterialGrade } from "@/containers/material-grade"
+import { StressInfo } from "@/containers/stress-info"
 
 const formSchema = z.object({
   material: z.string().optional(),
@@ -407,9 +408,11 @@ function Stress() {
           <Separator className="my-6" />
           <div className="space-y-3">
             <div>
-              <h4 className="font-sans text-sm font-semibold leading-normal text-gray-900">
+              <h4 className="inline-flex cursor-pointer items-center justify-center font-sans text-sm font-semibold leading-normal text-gray-900">
                 Material
+                <StressInfo />
               </h4>
+
               <p className="text-xs">
                 Dimensions of the tube, including Material, yield strength,
                 tensile strength
