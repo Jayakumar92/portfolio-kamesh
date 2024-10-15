@@ -17,7 +17,7 @@ function Resources() {
         <span className="text-sm text-slate-600">Back</span>
       </Link>
 
-      <Tabs defaultValue="piston-rod">
+      <Tabs defaultValue="hydraulic">
         <TabsList className="grid grid-cols-5">
           <TabsTrigger value="hydraulic">Hydraulic Cylinder</TabsTrigger>
           <TabsTrigger value="thickness">Tube Wall thickness</TabsTrigger>
