@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Bulking } from "@/containers/bulking"
 import { Stress } from "@/containers/stress"
 import { Thickness } from "@/containers/thickness"
+import { Thread } from "@/containers/thread"
 import { Trelleborg } from "@/containers/trelleborg"
 
 function Resources() {
@@ -16,7 +17,7 @@ function Resources() {
         <span className="text-sm text-slate-600">Back</span>
       </Link>
 
-      <Tabs defaultValue="stress">
+      <Tabs defaultValue="piston-rod">
         <TabsList className="grid grid-cols-5">
           <TabsTrigger value="hydraulic">Hydraulic Cylinder</TabsTrigger>
           <TabsTrigger value="thickness">Tube Wall thickness</TabsTrigger>
@@ -36,7 +37,9 @@ function Resources() {
         <TabsContent value="stress">
           <Stress />
         </TabsContent>
-        <TabsContent value="piston-rod">Piston Rod</TabsContent>
+        <TabsContent value="piston-rod">
+          <Thread />
+        </TabsContent>
       </Tabs>
     </div>
   )
