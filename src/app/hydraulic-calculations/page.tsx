@@ -18,12 +18,37 @@ function Resources() {
       </Link>
 
       <Tabs defaultValue="hydraulic">
-        <TabsList className="grid grid-cols-5">
-          <TabsTrigger value="hydraulic">Hydraulic Cylinder</TabsTrigger>
-          <TabsTrigger value="thickness">Tube Wall thickness</TabsTrigger>
-          <TabsTrigger value="buckling">Rod Buckling</TabsTrigger>
-          <TabsTrigger value="stress">Tube Principal Stress</TabsTrigger>
-          <TabsTrigger value="piston-rod">Piston and Rod</TabsTrigger>
+        <TabsList className="grid h-fit grid-cols-5">
+          <TabsTrigger
+            className="text-wrap text-[10px] md:text-sm"
+            value="hydraulic"
+          >
+            Hydraulic Cylinder
+          </TabsTrigger>
+          <TabsTrigger
+            className="text-wrap text-[10px] md:text-sm"
+            value="thickness"
+          >
+            Tube Wall thickness
+          </TabsTrigger>
+          <TabsTrigger
+            className="text-wrap text-[10px] md:text-sm"
+            value="buckling"
+          >
+            Rod Buckling
+          </TabsTrigger>
+          <TabsTrigger
+            className="text-wrap text-[10px] md:text-sm"
+            value="stress"
+          >
+            Tube Principal Stress
+          </TabsTrigger>
+          <TabsTrigger
+            className="text-wrap text-[10px] md:text-sm"
+            value="piston-rod"
+          >
+            Piston and Rod
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="hydraulic">
           <Trelleborg />
